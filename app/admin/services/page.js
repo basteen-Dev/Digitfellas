@@ -205,7 +205,7 @@ export default function ServicesPage() {
             key: 'created_at',
             header: 'Created',
             sortable: true,
-            render: (row) => new Date(row.created_at).toLocaleDateString(),
+            render: (row) => row.created_at ? new Date(row.created_at).toLocaleDateString() : '-',
         },
     ]
 

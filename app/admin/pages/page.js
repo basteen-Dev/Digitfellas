@@ -91,7 +91,7 @@ export default function PagesPage() {
         { key: 'template', header: 'Template', render: (row) => <span className="text-sm">{row.template}</span> },
         { key: 'is_published', header: 'Status', render: (row) => <StatusBadge status={row.is_published ? 'published' : 'draft'} /> },
         { key: 'show_in_menu', header: 'In Menu', render: (row) => row.show_in_menu ? '✓' : '' },
-        { key: 'created_at', header: 'Created', sortable: true, render: (row) => new Date(row.created_at).toLocaleDateString() },
+        { key: 'created_at', header: 'Created', sortable: true, render: (row) => row.created_at ? new Date(row.created_at).toLocaleDateString() : '-' },
     ]
 
     return (

@@ -26,20 +26,38 @@ export default function AdminPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const safeFetch = async (url) => {
+    try {
+      const res = await fetch(url, { cache: 'no-store' })
+      if (!res.ok) {
+        console.warn(`API warning: ${url} returned ${res.status}`)
+        return []
+      }
+      return await res.json()
+    } catch (err) {
+      console.error(`API error fetching ${url}:`, err)
+      return []
+    }
+  }
+
   const refresh = async () => {
     setLoading(true)
     try {
       const meRes = await fetch('/api/auth/me', { cache: 'no-store' })
-      const meJson = await meRes.json()
+      if (!meRes.ok) {
+        setMe(null)
+        return
+      }
+      const meJson = await meRes.json().catch(() => ({}))
       setMe(meJson?.user || null)
 
       if (meJson?.user) {
-        // Load stats
+        // Load stats safely
         const [services, projects, blog, pages] = await Promise.all([
-          fetch('/api/services').then(r => r.json()),
-          fetch('/api/projects').then(r => r.json()),
-          fetch('/api/blog').then(r => r.json()),
-          fetch('/api/pages').then(r => r.json()),
+          safeFetch('/api/services'),
+          safeFetch('/api/projects'),
+          safeFetch('/api/blog'),
+          safeFetch('/api/pages'),
         ])
 
         setStats({
@@ -51,6 +69,8 @@ export default function AdminPage() {
 
         setRecentBlog(Array.isArray(blog) ? blog.slice(0, 5) : [])
       }
+    } catch (err) {
+      console.error('Refresh error:', err)
     } finally {
       setLoading(false)
     }
@@ -222,7 +242,7 @@ export default function AdminPage() {
                       {post.title}
                     </Link>
                     <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                      <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                      <span>{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'No date'}</span>
                       {post.view_count > 0 && (
                         <span className="flex items-center gap-1">
                           <Eye className="h-3 w-3" />

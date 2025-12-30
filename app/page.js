@@ -341,66 +341,189 @@ function SectionHeading({ eyebrow, title, description, align = 'left' }) {
   )
 }
 
-function Services({ services }) {
-  const items = services || []
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+function ServiceImageEnsemble({ images, featuredImage }) {
+  const [index, setIndex] = useState(0)
+  const items = useMemo(() => {
+    const list = []
+    if (featuredImage?.url) list.push(featuredImage)
+    if (images && Array.isArray(images)) {
+      images.forEach(img => {
+        if (img?.url && img.url !== featuredImage?.url) list.push(img)
+      })
+    }
+    if (list.length === 0) list.push({ url: '/uploads/placeholder-hero.jpg' })
 
-  const handleMouseMove = (e, currentTarget) => {
-    const rect = currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    setMousePosition({ x, y })
-    currentTarget.style.setProperty('--mouse-x', `${x}px`)
-    currentTarget.style.setProperty('--mouse-y', `${y}px`)
-  }
+    // Group into sets of 3 for the ensemble feel
+    const sets = []
+    for (let i = 0; i < list.length; i += 3) {
+      const set = list.slice(i, i + 3)
+      // Pad with first image if set is partial to keep the layout consistent
+      while (set.length < 3 && list.length > 0) set.push(list[0])
+      sets.push(set)
+    }
+    return sets
+  }, [images, featuredImage])
+
+  useEffect(() => {
+    if (items.length <= 1) return
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % items.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [items])
+
+  const currentSet = items[index] || []
 
   return (
-    <section className="container py-24 md:py-32" id="services">
-      <Reveal>
+    <div className="relative w-full h-[350px] flex items-center justify-center">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className="absolute inset-0"
+        >
+          {/* Main Image */}
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] z-20"
+            initial={{ scale: 0.9, y: 10 }}
+            animate={{ scale: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-card aspect-[16/10]"
+            >
+              <img src={currentSet[0]?.url} alt="Service" className="w-full h-full object-cover" />
+            </motion.div>
+          </motion.div>
+
+          {/* Sub Image 1 */}
+          <motion.div
+            className="absolute top-0 right-4 w-[35%] z-30"
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              className="overflow-hidden rounded-2xl border border-white/10 shadow-xl aspect-square bg-card"
+            >
+              <img src={currentSet[1]?.url} alt="Service Detail" className="w-full h-full object-cover" />
+            </motion.div>
+          </motion.div>
+
+          {/* Sub Image 2 */}
+          <motion.div
+            className="absolute bottom-4 left-4 w-[40%] z-40"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="overflow-hidden rounded-2xl border border-white/10 shadow-xl aspect-square bg-card"
+            >
+              <img src={currentSet[2]?.url} alt="Service Detail" className="w-full h-full object-cover" />
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function ServiceRow({ s, i }) {
+  const isEven = i % 2 === 0
+  return (
+    <div className="relative group">
+      <div className={cx(
+        "grid gap-12 lg:gap-24 lg:grid-cols-2 items-center",
+        isEven ? "" : "lg:flex-row-reverse"
+      )}>
+        {/* Left Column: Title + Ensemble */}
+        <div className={cx("flex flex-col space-y-8", isEven ? "lg:order-1" : "lg:order-2")}>
+          <Reveal delay={0.1}>
+            <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white group-hover:text-primary transition-colors duration-500">
+              {s.title}
+            </h3>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <div className="relative">
+              <ServiceImageEnsemble images={s.images} featuredImage={s.featured_image} />
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Right Column: Details */}
+        <div className={cx("flex flex-col space-y-8", isEven ? "lg:order-2" : "lg:order-1")}>
+          <Reveal delay={0.3}>
+            <div className="flex flex-col space-y-6">
+              <div className="flex items-center gap-3">
+                <Badge variant="secondary" className="rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-wider bg-primary/10 text-primary border-none">
+                  {s?.category_name || 'Expertise'}
+                </Badge>
+                {s.tag && (
+                  <Badge variant="outline" className="rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-wider border-white/10 text-muted-foreground bg-white/5">
+                    {s.tag}
+                  </Badge>
+                )}
+              </div>
+
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+                {s.description || s.excerpt}
+              </p>
+
+              <div className="flex flex-wrap gap-3 pt-4">
+                {s.meta && s.meta.split('/').map((m, mi) => (
+                  <span key={mi} className="px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-[11px] font-extrabold uppercase tracking-widest text-muted-foreground/80 hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all duration-300 cursor-default">
+                    {m.trim()}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-8">
+                <Button asChild size="lg" className="rounded-2xl px-10 py-7 text-base font-bold bg-white text-black hover:bg-primary hover:text-white shadow-xl transition-all group/btn">
+                  <Link href={`/services/${s.slug}`} className="flex items-center gap-3">
+                    Learn More
+                    <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Background decoration for the row */}
+      <div className="absolute -inset-x-8 -inset-y-12 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[3rem] -z-10 blur-2xl" />
+    </div>
+  )
+}
+
+function Services({ services }) {
+  const items = services || []
+
+  return (
+    <section className="container py-24 md:py-32 overflow-hidden" id="services">
+      <Reveal align="center">
         <SectionHeading
-          eyebrow="Expertise"
-          title="Engineering, design, and automation."
+          align="center"
+          eyebrow="Capabilities"
+          title="Engineering & Design"
           description="End-to-end delivery from idea to deployment — optimized for speed and reliability."
         />
       </Reveal>
 
-      <div className="grid gap-8 md:grid-cols-3">
+      <div className="mt-24 space-y-40">
         {items.map((s, i) => (
-          <Reveal key={s?.id} delay={i * 0.1}>
-            <motion.div
-              whileHover={{ y: -10, scale: 1.02 }}
-              onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
-              className="group h-full card-glow border-gradient rounded-[2.5rem] bg-card/50 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20"
-            >
-              <div className="relative h-full flex flex-col p-8 z-10">
-                <div className="mb-8 w-full h-56 rounded-3xl overflow-hidden relative border border-white/5 shadow-inner">
-                  <CardImageCarousel
-                    images={s.images}
-                    featuredImage={s.featured_image}
-                    alt={s.featured_image?.alt || s.title}
-                    className="group-hover:scale-110 transition-transform duration-700"
-                  />
-                </div>
-
-                <div className="flex items-center gap-3 mb-4">
-                  <Badge variant="secondary" className="rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-wider bg-primary/10 text-primary border-none">
-                    {s?.category_name || 'Service'}
-                  </Badge>
-                </div>
-
-                <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{s?.title}</h3>
-                <p className="text-muted-foreground leading-relaxed mb-8 flex-grow line-clamp-4">{s?.excerpt || s?.description}</p>
-
-                <Link href={`/services/${s?.slug}`} className="group/link inline-flex items-center gap-2 font-bold text-sm text-primary">
-                  <span className="relative">
-                    Learn More
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover/link:w-full" />
-                  </span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
-                </Link>
-              </div>
-            </motion.div>
-          </Reveal>
+          <ServiceRow key={s.id} s={s} i={i} />
         ))}
       </div>
     </section>

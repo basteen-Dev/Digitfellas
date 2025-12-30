@@ -91,7 +91,7 @@ export default function HeroPage() {
         { key: 'title', header: 'Title', render: (row) => <div className="max-w-md truncate">{row.title}</div> },
         { key: 'kicker', header: 'Kicker', render: (row) => row.kicker || '-' },
         { key: 'is_active', header: 'Status', render: (row) => row.is_active ? <span className="text-green-600">●</span> : <span className="text-gray-400">●</span> },
-        { key: 'created_at', header: 'Created', sortable: true, render: (row) => new Date(row.created_at).toLocaleDateString() },
+        { key: 'created_at', header: 'Created', sortable: true, render: (row) => row.created_at ? new Date(row.created_at).toLocaleDateString() : '-' },
     ]
 
     return (
