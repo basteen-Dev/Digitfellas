@@ -275,6 +275,7 @@ CREATE TABLE IF NOT EXISTS client_logos (
     name VARCHAR(255) NOT NULL,
     logo_url TEXT NOT NULL,
     website_url TEXT,
+    description TEXT,
     sort_order INTEGER DEFAULT 0,
     is_published BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

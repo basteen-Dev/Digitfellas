@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { Bold, Italic, List, ListOrdered, Link as LinkIcon, Image as ImageIcon, Code, Heading1, Heading2, Loader2 } from 'lucide-react'
+import { Bold, Italic, List, ListOrdered, Link as LinkIcon, Image as ImageIcon, Code, Heading1, Heading2, Loader2, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -86,6 +86,21 @@ export function RichEditor({ value = '', onChange, label = 'Content', minHeight 
 
 
 
+    const [fontOpen, setFontOpen] = useState(false)
+    const fonts = [
+        { name: 'Default', value: '' },
+        { name: 'Poppins', value: 'Poppins, sans-serif' },
+        { name: 'Inter', value: 'Inter, sans-serif' },
+        { name: 'Roboto', value: 'Roboto, sans-serif' },
+        { name: 'Open Sans', value: '"Open Sans", sans-serif' },
+    ]
+
+    const applyFont = (fontValue) => {
+        if (!fontValue) return // Default
+        insertMarkdown(`<span style="font-family: ${fontValue}">`, '</span>')
+        setFontOpen(false)
+    }
+
     return (
         <div className="space-y-2">
             <label className="text-sm font-medium">{label}</label>
@@ -93,6 +108,37 @@ export function RichEditor({ value = '', onChange, label = 'Content', minHeight 
             <Tabs value={preview ? 'preview' : 'edit'} onValueChange={(v) => setPreview(v === 'preview')}>
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1 flex-wrap">
+                        {/* Font Picker */}
+                        <div className="relative">
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setFontOpen(!fontOpen)}
+                                title="Select Font"
+                                className="h-8 w-auto px-2 font-normal"
+                            >
+                                <span className="mr-1">Font</span>
+                                <ChevronDown className="h-3 w-3" />
+                            </Button>
+                            {fontOpen && (
+                                <div className="absolute top-full left-0 mt-1 w-40 bg-popover border rounded-md shadow-lg z-50 py-1">
+                                    {fonts.map((f) => (
+                                        <button
+                                            key={f.name}
+                                            type="button"
+                                            onClick={() => applyFont(f.value)}
+                                            className="block w-full text-left px-3 py-1.5 text-sm hover:bg-accent transition-colors"
+                                            style={{ fontFamily: f.value }}
+                                        >
+                                            {f.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div className="text-border h-4 w-px border-r mx-1" />
+
                         <Button
                             type="button"
                             variant="ghost"
@@ -203,8 +249,8 @@ export function RichEditor({ value = '', onChange, label = 'Content', minHeight 
                 </TabsContent>
             </Tabs>
 
-            <p className="text-xs text-muted-foreground">
-                Supports Markdown formatting
+            <p className="text-xs text-muted-foreground flex justify-between">
+                <span>Supports Markdown & HTML</span>
             </p>
         </div>
     )

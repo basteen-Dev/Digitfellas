@@ -184,9 +184,9 @@ export default function ServicesPage() {
     }
 
     const handlePreview = () => {
-        if (formData.slug) {
-            window.open(`/services/${formData.slug}`, '_blank')
-        }
+        // Save current form state to localStorage for the preview page to pick up
+        localStorage.setItem('df_preview_service', JSON.stringify(formData))
+        window.open('/admin/preview/service', '_blank')
     }
 
     const columns = [

@@ -77,10 +77,10 @@ export async function POST(request) {
         switch (type) {
             case 'client-logos':
                 const logo = await pool.query(`
-          INSERT INTO client_logos (id, name, logo_url, website_url, sort_order, is_published)
-          VALUES ($1, $2, $3, $4, $5, $6)
+          INSERT INTO client_logos (id, name, logo_url, website_url, description, sort_order, is_published)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
           RETURNING *
-        `, [id, body.name, body.logo_url, body.website_url, body.sort_order || 0, body.is_published !== false])
+        `, [id, body.name, body.logo_url, body.website_url, body.description, body.sort_order || 0, body.is_published !== false])
                 return handleCORS(NextResponse.json(logo.rows[0]))
 
             case 'testimonials':
@@ -129,10 +129,10 @@ export async function PUT(request) {
             case 'client-logos':
                 const logo = await pool.query(`
           UPDATE client_logos 
-          SET name = $1, logo_url = $2, website_url = $3, sort_order = $4, is_published = $5
-          WHERE id = $6
+          SET name = $1, logo_url = $2, website_url = $3, description = $4, sort_order = $5, is_published = $6
+          WHERE id = $7
           RETURNING *
-        `, [body.name, body.logo_url, body.website_url, body.sort_order, body.is_published, id])
+        `, [body.name, body.logo_url, body.website_url, body.description, body.sort_order, body.is_published, id])
                 return handleCORS(NextResponse.json(logo.rows[0]))
 
             case 'testimonials':

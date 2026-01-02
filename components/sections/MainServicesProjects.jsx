@@ -58,7 +58,7 @@ export function MainServicesProjects({ services = [], projects = [] }) {
                                 <Link href={`/services/${service.slug}`}>{service.title}</Link>
                             </h5>
                             <p className="text-gray-400 text-[15px] leading-[26px]">
-                                {service.short_description || service.excerpt || "Professional service description goes here."}
+                                {(service.short_description || service.excerpt || "Professional service description goes here.").slice(0, 120) + ((service.short_description || service.excerpt || "").length > 120 ? '...' : '')}
                             </p>
                         </motion.div>
                     ))}

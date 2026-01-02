@@ -53,7 +53,7 @@ export function ServicesPromo({ services = [] }) {
 
                             {/* Description */}
                             <p className="text-gray-400 text-[15px] leading-[26px] mb-8 flex-grow">
-                                {service.short_description || service.description || "No description available."}
+                                {(service.short_description || service.description || "No description available.").slice(0, 120) + ((service.short_description || service.description || "").length > 120 ? '...' : '')}
                             </p>
 
                             {/* Button */}

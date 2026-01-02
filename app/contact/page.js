@@ -11,6 +11,34 @@ import { Button } from '@/components/ui/button'
 export default function Page() {
   const [site, setSite] = useState(null)
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+
+  const handleSubmit = async () => {
+    setLoading(true)
+    setError('')
+    setSent(false)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data.error || 'Failed to send message')
+
+      setSent(true)
+      setFormData({ name: '', email: '', message: '' })
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     const run = async () => {
@@ -32,13 +60,28 @@ export default function Page() {
         <Card className="rounded-2xl border-border p-6">
           <div className="text-sm font-semibold">Message</div>
           <div className="mt-4 grid gap-3">
-            <Input placeholder="Your name" />
-            <Input placeholder="Email" />
-            <Textarea placeholder="What do you want to build?" rows={6} />
-            <Button className="rounded-full" onClick={() => setSent(true)}>
-              Send
+            <Input
+              placeholder="Your name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            <Input
+              placeholder="Email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+            <Textarea
+              placeholder="What do you want to build?"
+              rows={6}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            />
+            <Button className="rounded-full" onClick={handleSubmit} disabled={loading}>
+              {loading ? 'Sending...' : 'Send'}
             </Button>
-            {sent ? <div className="text-xs text-muted-foreground">MVP: form send is not wired yet.</div> : null}
+            {sent && <div className="text-xs text-green-600 font-medium">Message sent successfully! We'll get back to you soon.</div>}
+            {error && <div className="text-xs text-red-600 font-medium">{error}</div>}
           </div>
         </Card>
 

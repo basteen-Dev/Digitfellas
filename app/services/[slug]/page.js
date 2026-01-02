@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
@@ -8,6 +8,39 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useService } from '@/lib/api-hooks'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { renderMarkdown } from '@/lib/render-markdown'
+
+function FeatureCard({ feature }) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const description = feature.description || ''
+  const shouldTruncate = description.length > 120
+
+  return (
+    <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group flex flex-col h-full">
+      {feature.image?.[0]?.url && (
+        <div className="mb-6 h-48 overflow-hidden rounded-xl bg-gray-100 w-full shrink-0">
+          <img
+            src={feature.image[0].url}
+            alt={feature.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+      )}
+      <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">{feature.title}</h3>
+      <p className="text-gray-600 leading-relaxed flex-grow">
+        {isExpanded ? description : (shouldTruncate ? description.slice(0, 120) + '...' : description)}
+      </p>
+      {shouldTruncate && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-primary font-semibold mt-4 text-sm hover:underline self-start focus:outline-none"
+        >
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      )}
+    </div>
+  )
+}
 
 export default function ServiceDetailPage() {
   const params = useParams()
@@ -101,7 +134,7 @@ export default function ServiceDetailPage() {
           <ScrollReveal className="container px-6 md:px-12 mx-auto max-w-5xl text-center">
             <div
               className="prose prose-lg md:prose-xl max-w-none text-gray-700"
-              dangerouslySetInnerHTML={{ __html: service.intro_content }}
+              dangerouslySetInnerHTML={{ __html: renderMarkdown(service.intro_content) }}
             />
           </ScrollReveal>
         </section>
@@ -114,19 +147,7 @@ export default function ServiceDetailPage() {
             <ScrollReveal variant="stagger" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
               {features.map((feature, idx) => (
                 <ScrollReveal key={feature.id || idx} variant="fadeUp" className="h-full">
-                  <div className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group flex flex-col h-full">
-                    {feature.image?.[0]?.url && (
-                      <div className="mb-6 h-48 overflow-hidden rounded-xl bg-gray-100 w-full shrink-0">
-                        <img
-                          src={feature.image[0].url}
-                          alt={feature.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                    )}
-                    <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">{feature.title}</h3>
-                    <p className="text-gray-600 leading-relaxed flex-grow">{feature.description}</p>
-                  </div>
+                  <FeatureCard feature={feature} />
                 </ScrollReveal>
               ))}
             </ScrollReveal>
@@ -154,7 +175,7 @@ export default function ServiceDetailPage() {
                   <ScrollReveal variant="fadeUp">
                     <div
                       className="prose prose-lg text-gray-600 max-w-none"
-                      dangerouslySetInnerHTML={{ __html: details.content }}
+                      dangerouslySetInnerHTML={{ __html: renderMarkdown(details.content) }}
                     />
                   </ScrollReveal>
                 </div>
