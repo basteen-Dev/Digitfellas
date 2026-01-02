@@ -52,7 +52,7 @@ export default function Page() {
   const contact = site?.pages?.contact
 
   return (
-    <div className="container py-14 md:py-16">
+    <div className="container py-20 md:py-24">
       <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">{contact?.title || 'Contact'}</h1>
       <div className="mt-3 max-w-2xl text-muted-foreground" dangerouslySetInnerHTML={{ __html: renderMarkdown(contact?.subtitle || 'Tell us about your project.') }} />
 
@@ -87,13 +87,32 @@ export default function Page() {
 
         <Card className="rounded-2xl border-border p-6">
           <div className="text-sm font-semibold">Contact details</div>
-          <div className="mt-4 text-sm text-muted-foreground">
-            <div>{site?.footer?.contact?.email}</div>
-            <div className="mt-1">{site?.footer?.contact?.phone}</div>
-            <div className="mt-1">{site?.footer?.contact?.address}</div>
-          </div>
-          <div className="mt-6 text-xs text-muted-foreground">
-            Edit these fields in Admin → Footer.
+          <div className="mt-4 space-y-3 text-sm text-muted-foreground">
+            {site?.footer?.contact?.email && (
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground">Email:</span>
+                <a href={`mailto:${site.footer.contact.email}`} className="hover:text-primary">
+                  {site.footer.contact.email}
+                </a>
+              </div>
+            )}
+            {site?.footer?.contact?.phone && (
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground">Phone:</span>
+                <a href={`tel:${site.footer.contact.phone}`} className="hover:text-primary">
+                  {site.footer.contact.phone}
+                </a>
+              </div>
+            )}
+            {site?.footer?.contact?.address && (
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground">Address:</span>
+                <span>{site.footer.contact.address}</span>
+              </div>
+            )}
+            {!site?.footer?.contact && (
+              <div className="text-xs italic">Loading contact details...</div>
+            )}
           </div>
         </Card>
       </div>

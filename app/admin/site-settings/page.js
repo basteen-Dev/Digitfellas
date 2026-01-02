@@ -40,8 +40,23 @@ export default function SiteSettingsPage() {
     const loadSettings = async () => {
         setLoading(true)
         try {
-            const data = await apiCall('/api/settings')
-            setSettings({ ...settings, ...data })
+            const site = await apiCall('/api/site')
+            setSettings({
+                brand_name: site?.brand?.name || '',
+                brand_tagline: site?.footer?.tagline || '',
+                contact_email: site?.footer?.contact?.email || '',
+                contact_phone: site?.footer?.contact?.phone || '',
+                contact_address: site?.footer?.contact?.address || '',
+                social_facebook: site?.footer?.socials?.find(s => s.label === 'Facebook')?.href || '',
+                social_twitter: site?.footer?.socials?.find(s => s.label === 'Twitter')?.href || '',
+                social_linkedin: site?.footer?.socials?.find(s => s.label === 'LinkedIn')?.href || '',
+                social_instagram: site?.footer?.socials?.find(s => s.label === 'Instagram')?.href || '',
+                social_github: site?.footer?.socials?.find(s => s.label === 'GitHub')?.href || '',
+                footer_text: site?.footer?.copyright || '',
+                seo_default_title: site?.brand?.name || '',
+                seo_default_description: site?.footer?.tagline || '',
+                analytics_id: site?.analytics_id || '',
+            })
         } catch (error) {
             console.error('Failed to load settings:', error)
         } finally {
@@ -55,7 +70,37 @@ export default function SiteSettingsPage() {
         setSaving(true)
         setMessage('')
         try {
-            await apiCall('/api/settings', { method: 'PUT', body: JSON.stringify(settings) })
+            // Fetch current site data
+            const site = await apiCall('/api/site')
+
+            // Update with new values
+            const updatedSite = {
+                ...site,
+                brand: {
+                    ...site?.brand,
+                    name: settings.brand_name
+                },
+                footer: {
+                    ...site?.footer,
+                    tagline: settings.brand_tagline,
+                    copyright: settings.footer_text,
+                    contact: {
+                        email: settings.contact_email,
+                        phone: settings.contact_phone,
+                        address: settings.contact_address
+                    },
+                    socials: [
+                        { id: 'fb', label: 'Facebook', href: settings.social_facebook },
+                        { id: 'tw', label: 'Twitter', href: settings.social_twitter },
+                        { id: 'li', label: 'LinkedIn', href: settings.social_linkedin },
+                        { id: 'ig', label: 'Instagram', href: settings.social_instagram },
+                        { id: 'gh', label: 'GitHub', href: settings.social_github },
+                    ].filter(s => s.href) // Only include socials with URLs
+                },
+                analytics_id: settings.analytics_id
+            }
+
+            await apiCall('/api/site', { method: 'PUT', body: JSON.stringify(updatedSite) })
             setMessage('Settings saved successfully!')
             setTimeout(() => setMessage(''), 3000)
         } catch (error) {

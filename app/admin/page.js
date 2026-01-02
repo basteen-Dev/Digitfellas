@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Save, RefreshCw, LogOut, FileText, Briefcase, FolderOpen, Sparkles, Eye, TrendingUp } from 'lucide-react'
+import { Save, RefreshCw, LogOut, FileText, Briefcase, FolderOpen, Sparkles, Eye, TrendingUp, Users } from 'lucide-react'
 import { AdminLayout } from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -279,6 +279,12 @@ export default function AdminPage() {
               <Link href="/admin/blog">
                 <FileText className="h-4 w-4 mr-2" />
                 Write Blog Post
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="justify-start">
+              <Link href="/admin/client-logos">
+                <Users className="h-4 w-4 mr-2" />
+                Add Brand Logo
               </Link>
             </Button>
             <Button asChild variant="outline" className="justify-start">

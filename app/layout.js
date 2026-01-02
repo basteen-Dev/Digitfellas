@@ -1,4 +1,5 @@
 import './globals.css'
+import './scroll-animations.css'
 import { Inter, Poppins } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
 import { QueryProvider } from '@/components/query-provider'

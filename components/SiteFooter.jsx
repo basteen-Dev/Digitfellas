@@ -1,10 +1,22 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
 
 export function SiteFooter() {
     const currentYear = new Date().getFullYear()
+    const [site, setSite] = useState(null)
+
+    useEffect(() => {
+        fetch('/api/site')
+            .then(res => res.json())
+            .then(data => setSite(data))
+            .catch(err => console.error('Failed to load site data:', err))
+    }, [])
+
+    const email = site?.footer?.contact?.email || 'hello@digitfellas.com'
+    const phone = site?.footer?.contact?.phone || '+1 (555) 123-4567'
 
     return (
         <footer className="bg-black text-white pt-[72px] pb-[48px] border-t border-white/10">
@@ -29,8 +41,8 @@ export function SiteFooter() {
                                 </div>
                                 <div>
                                     <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Email us</span>
-                                    <a href="mailto:hello@digitfellas.com" className="text-sm font-bold hover:text-[#ffffff] transition-colors">
-                                        hello@digitfellas.com
+                                    <a href={`mailto:${email}`} className="text-sm font-bold hover:text-[#ffffff] transition-colors">
+                                        {email}
                                     </a>
                                 </div>
                             </div>
@@ -42,8 +54,8 @@ export function SiteFooter() {
                                 </div>
                                 <div>
                                     <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Call us</span>
-                                    <a href="tel:+15551234567" className="text-sm font-bold hover:text-[#ffffff] transition-colors">
-                                        +1 (555) 123-4567
+                                    <a href={`tel:${phone}`} className="text-sm font-bold hover:text-[#ffffff] transition-colors">
+                                        {phone}
                                     </a>
                                 </div>
                             </div>

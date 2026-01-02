@@ -12,8 +12,6 @@ export function MainServicesProjects({ services = [], projects = [] }) {
 
     return (
         <section className="relative w-full bg-black text-white pt-[160px] pb-[160px] md:pt-[90px] md:pb-[90px] overflow-hidden">
-            {/* Optional Background Pattern */}
-            <div className="absolute inset-0 opacity-[0.05] bg-[url('/images/pattern-dot.svg')] pointer-events-none" />
 
             <div className="container relative z-10 max-w-[1280px] mx-auto px-4 md:px-10">
 

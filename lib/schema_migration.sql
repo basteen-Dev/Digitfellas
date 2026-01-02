@@ -244,24 +244,31 @@ END;
 $$ language 'plpgsql';
 
 -- Add triggers for updated_at
+DROP TRIGGER IF EXISTS update_services_updated_at ON services;
 CREATE TRIGGER update_services_updated_at BEFORE UPDATE ON services
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_projects_updated_at ON projects;
 CREATE TRIGGER update_projects_updated_at BEFORE UPDATE ON projects
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_blog_posts_updated_at ON blog_posts;
 CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_cms_pages_updated_at ON cms_pages;
 CREATE TRIGGER update_cms_pages_updated_at BEFORE UPDATE ON cms_pages
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_hero_sections_updated_at ON hero_sections;
 CREATE TRIGGER update_hero_sections_updated_at BEFORE UPDATE ON hero_sections
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_navigation_items_updated_at ON navigation_items;
 CREATE TRIGGER update_navigation_items_updated_at BEFORE UPDATE ON navigation_items
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_categories_updated_at ON categories;
 CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
@@ -281,6 +288,13 @@ CREATE TABLE IF NOT EXISTS client_logos (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+DO $$ 
+BEGIN 
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='client_logos' AND column_name='description') THEN
+    ALTER TABLE client_logos ADD COLUMN description TEXT;
+  END IF;
+END $$;
 
 -- Testimonials table
 CREATE TABLE IF NOT EXISTS testimonials (
@@ -325,15 +339,19 @@ CREATE TABLE IF NOT EXISTS process_steps (
 );
 
 -- Triggers for new tables
+DROP TRIGGER IF EXISTS update_client_logos_updated_at ON client_logos;
 CREATE TRIGGER update_client_logos_updated_at BEFORE UPDATE ON client_logos
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_testimonials_updated_at ON testimonials;
 CREATE TRIGGER update_testimonials_updated_at BEFORE UPDATE ON testimonials
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_tech_stack_updated_at ON tech_stack;
 CREATE TRIGGER update_tech_stack_updated_at BEFORE UPDATE ON tech_stack
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_process_steps_updated_at ON process_steps;
 CREATE TRIGGER update_process_steps_updated_at BEFORE UPDATE ON process_steps
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 

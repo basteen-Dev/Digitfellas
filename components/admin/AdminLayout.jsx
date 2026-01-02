@@ -28,6 +28,7 @@ const navItems = [
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/site-settings', label: 'Site Settings', icon: Settings },
     { href: '/admin/hero', label: 'Hero Section', icon: Sparkles },
+    { href: '/admin/client-logos', label: 'Brand Logos', icon: Users },
     { href: '/admin/navigation', label: 'Navigation', icon: Navigation },
     { href: '/admin/services', label: 'Services', icon: Briefcase },
     { href: '/admin/projects', label: 'Projects', icon: FolderOpen },

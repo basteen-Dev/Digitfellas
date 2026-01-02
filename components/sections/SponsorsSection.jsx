@@ -15,8 +15,6 @@ export function SponsorsSection() {
 
     return (
         <section className="relative w-full overflow-hidden bg-transparent pt-[95px] pb-0">
-            {/* Background Pattern/Mask (Optional - using generic dot/mask if available or just transparent) */}
-            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[url('/images/pattern-dot.svg')] bg-repeat z-0" />
 
             <div className="container relative z-10 max-w-[1248px] mx-auto px-4">
                 <div className="flex flex-wrap justify-center md:justify-between items-center -mx-4 md:mx-0">

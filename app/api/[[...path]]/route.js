@@ -565,6 +565,66 @@ async function handleRoute(request, { params }) {
       return handleCORS(NextResponse.json(saved))
     }
 
+    // Settings (maps to footer.contact in site data)
+    if (route === '/settings' && method === 'GET') {
+      const site = (await pgEnabled()) ? await pgGetSite() : await jsonGetSite()
+      return handleCORS(NextResponse.json({
+        brand_name: site?.brand?.name || '',
+        brand_tagline: site?.footer?.tagline || '',
+        contact_email: site?.footer?.contact?.email || '',
+        contact_phone: site?.footer?.contact?.phone || '',
+        contact_address: site?.footer?.contact?.address || '',
+        social_facebook: site?.footer?.socials?.find(s => s.label === 'Facebook')?.href || '',
+        social_twitter: site?.footer?.socials?.find(s => s.label === 'Twitter')?.href || '',
+        social_linkedin: site?.footer?.socials?.find(s => s.label === 'LinkedIn')?.href || '',
+        social_instagram: site?.footer?.socials?.find(s => s.label === 'Instagram')?.href || '',
+        social_github: site?.footer?.socials?.find(s => s.label === 'GitHub')?.href || '',
+        footer_text: site?.footer?.copyright || '',
+        seo_default_title: site?.brand?.name || '',
+        seo_default_description: site?.footer?.tagline || '',
+        analytics_id: site?.analytics_id || '',
+      }))
+    }
+
+    if (route === '/settings' && method === 'PUT') {
+      const session = requireAdmin(request)
+      if (!session) return handleCORS(NextResponse.json({ error: 'Unauthorized' }, { status: 401 }))
+      const settings = await request.json()
+
+      // Fetch current site data
+      const site = (await pgEnabled()) ? await pgGetSite() : await jsonGetSite()
+
+      // Update site with settings
+      const updatedSite = {
+        ...site,
+        brand: {
+          ...site?.brand,
+          name: settings.brand_name
+        },
+        footer: {
+          ...site?.footer,
+          tagline: settings.brand_tagline,
+          copyright: settings.footer_text,
+          contact: {
+            email: settings.contact_email,
+            phone: settings.contact_phone,
+            address: settings.contact_address
+          },
+          socials: [
+            { id: 'fb', label: 'Facebook', href: settings.social_facebook },
+            { id: 'tw', label: 'Twitter', href: settings.social_twitter },
+            { id: 'li', label: 'LinkedIn', href: settings.social_linkedin },
+            { id: 'ig', label: 'Instagram', href: settings.social_instagram },
+            { id: 'gh', label: 'GitHub', href: settings.social_github },
+          ].filter(s => s.href)
+        },
+        analytics_id: settings.analytics_id
+      }
+
+      const saved = (await pgEnabled()) ? await pgSetSite(updatedSite) : await jsonSetSite(updatedSite)
+      return handleCORS(NextResponse.json({ ok: true }))
+    }
+
     // ============================================
     // SERVICES CRUD
     // ============================================
