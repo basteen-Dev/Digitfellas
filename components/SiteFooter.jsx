@@ -14,9 +14,11 @@ export function SiteFooter() {
                     {/* COLUMN 1: Brand & Contact */}
                     <div className="lg:col-span-2">
                         <Link href="/" className="inline-block mb-8">
-                            <span className="text-2xl font-bold font-heading text-white">
-                                DigitFellas
-                            </span>
+                            <img
+                                src="/images/digitfellas_logo.png"
+                                alt="DigitFellas"
+                                className="h-24 w-auto object-contain"
+                            />
                         </Link>
 
                         <div className="flex flex-col gap-4 max-w-sm">

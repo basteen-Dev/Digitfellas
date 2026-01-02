@@ -78,19 +78,14 @@ export function SiteHeader() {
             )}>
                 {/* A. Logo (Left) */}
                 <Link href="/" className="flex items-center gap-3 group relative z-50">
-                    <div className={cx(
-                        "transition-all duration-300 bg-white/10 rounded-lg flex items-center justify-center text-white backdrop-blur-sm border border-white/20",
-                        isSticky ? "w-10 h-10" : "w-12 h-12"
-                    )}>
-                        {/* Placeholder for SVG Favicon */}
-                        <Code2 className={isSticky ? "w-6 h-6" : "w-7 h-7"} />
-                    </div>
-                    <div className={cx("transition-all duration-300 origin-left", isSticky ? "scale-90" : "scale-100")}>
-                        {/* Placeholder for Full Logo Image */}
-                        <span className="text-xl md:text-2xl font-bold tracking-tight text-white font-heading">
-                            {site?.brand?.name || 'Digit Fellas'}
-                        </span>
-                    </div>
+                    <img
+                        src="/images/digitfellas_logo.png"
+                        alt="DigitFellas Logo"
+                        className={cx(
+                            "transition-all duration-300 object-contain",
+                            isSticky ? "h-20" : "h-24"
+                        )}
+                    />
                 </Link>
 
                 {/* B. Main Navigation (Center-ish / Right-ish) */}

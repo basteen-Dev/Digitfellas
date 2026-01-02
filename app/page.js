@@ -12,33 +12,20 @@ import { ProcessStepsSection } from '@/components/sections/ProcessSteps'
 import { TestimonialsSection } from '@/components/sections/Testimonials'
 import { TechStackSection } from '@/components/sections/TechStack'
 
-// Server Component data fetching
-async function getData() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-  try {
-    const [heroRes, servicesRes, projectsRes, blogRes] = await Promise.all([
-      fetch(`http://localhost:3000/api/hero/home`, { next: { revalidate: 60, tags: ['hero'] } }),
-      fetch(`http://localhost:3000/api/services`, { next: { revalidate: 60, tags: ['services'] } }),
-      fetch(`http://localhost:3000/api/projects`, { next: { revalidate: 60, tags: ['projects'] } }),
-      fetch(`http://localhost:3000/api/blog`, { next: { revalidate: 60, tags: ['blog'] } })
-    ])
+import { getHomeData } from '@/lib/data'
 
-    const hero = heroRes.ok ? await heroRes.json() : {}
-    const services = servicesRes.ok ? await servicesRes.json() : []
-    const projects = projectsRes.ok ? await projectsRes.json() : []
-    const posts = blogRes.ok ? await blogRes.json() : []
-
-    console.log('Hero Data Fetched:', hero?.title, 'Media Count:', hero?.media?.length)
-
-    return { hero, services, projects, posts }
-  } catch (error) {
-    console.error('Error fetching homepage data:', error)
-    return { hero: {}, services: [], projects: [], posts: [] }
-  }
-}
+export const revalidate = 60
 
 export default async function Home() {
-  const { hero, services, projects, posts } = await getData()
+  const { hero, services, projects, posts } = await getHomeData()
+
+  // Log for verification (build time)
+  console.log('Homepage Data Loaded via DB:', {
+    hero: !!hero?.title,
+    services: services?.length,
+    projects: projects?.length,
+    posts: posts?.length
+  })
 
   return (
     <>
