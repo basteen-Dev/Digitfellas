@@ -35,7 +35,7 @@ export function BannerPromo() {
                         variant="fade-up"
                         className="w-full md:w-2/3"
                     >
-                        <span className="text-[#ffffff] font-semibold tracking-wider uppercase text-sm mb-6 block">
+                        <span className="text-white font-semibold tracking-wider uppercase text-sm mb-6 block opacity-80">
                             Digifellas
                         </span>
 
@@ -43,14 +43,14 @@ export function BannerPromo() {
                             Hello! We are a creative digital agency dealing with clean code.
                         </h1>
 
-                        <p className="text-gray-300 text-[18px] leading-[30px] mb-10 max-w-[80%]">
+                        <p className="text-gray-200 text-[18px] leading-[30px] mb-10 max-w-[80%]">
                             We help you digitally transform your business. We are a team of passionate developers and designers who love to create amazing digital experiences.
                         </p>
 
                         <div className="flex flex-wrap gap-4">
                             <Link
                                 href="/projects"
-                                className="inline-flex items-center bg-[#ffffff] text-black px-8 py-4 rounded-[5px] font-bold text-sm tracking-wide hover:bg-white transition-colors shadow-lg"
+                                className="inline-flex items-center bg-white text-black px-8 py-4 rounded-[5px] font-bold text-sm tracking-wide hover:bg-gray-200 transition-colors shadow-lg"
                             >
                                 VIEW PROJECT
                             </Link>

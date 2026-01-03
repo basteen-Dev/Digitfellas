@@ -44,7 +44,7 @@ export function ClientLogosSection() {
                     {duplicatedLogos.map((logo, index) => (
                         <div
                             key={`${logo.id}-${index}`}
-                            className="flex-shrink-0 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 relative h-8 w-32"
+                            className="flex-shrink-0 transition-all duration-300 relative h-12 w-40"
                         >
                             <Image
                                 src={logo.logo_url}

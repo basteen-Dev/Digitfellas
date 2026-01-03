@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { renderMarkdown } from '@/lib/render-markdown'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { Mail, Phone, MapPin, ArrowRight, Loader2 } from 'lucide-react'
 
 export default function Page() {
   const [site, setSite] = useState(null)
@@ -16,6 +16,11 @@ export default function Page() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
 
   const handleSubmit = async () => {
+    if (!formData.name || !formData.email || !formData.message) {
+      setError("Please fill out all fields.")
+      return
+    }
+
     setLoading(true)
     setError('')
     setSent(false)
@@ -40,81 +45,135 @@ export default function Page() {
     }
   }
 
+  // Fetch site data for footer contact info (if needed dynamically) or hardcode if preferred to match design
   useEffect(() => {
     const run = async () => {
-      const res = await fetch('/api/site', { cache: 'no-store' })
-      const json = await res.json()
-      setSite(json)
+      try {
+        const res = await fetch('/api/site', { cache: 'no-store' })
+        if (res.ok) {
+          const json = await res.json()
+          setSite(json)
+        }
+      } catch (e) {
+        console.error("Failed to fetch site info", e)
+      }
     }
     run()
   }, [])
 
-  const contact = site?.pages?.contact
-
   return (
-    <div className="container py-20 md:py-24">
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">{contact?.title || 'Contact'}</h1>
-      <div className="mt-3 max-w-2xl text-muted-foreground" dangerouslySetInnerHTML={{ __html: renderMarkdown(contact?.subtitle || 'Tell us about your project.') }} />
+    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-20">
+      <div className="container max-w-7xl mx-auto px-6">
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <Card className="rounded-2xl border-border p-6">
-          <div className="text-sm font-semibold">Message</div>
-          <div className="mt-4 grid gap-3">
-            <Input
-              placeholder="Your name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            />
-            <Input
-              placeholder="Email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-            <Textarea
-              placeholder="What do you want to build?"
-              rows={6}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            />
-            <Button className="rounded-full" onClick={handleSubmit} disabled={loading}>
-              {loading ? 'Sending...' : 'Send'}
-            </Button>
-            {sent && <div className="text-xs text-green-600 font-medium">Message sent successfully! We'll get back to you soon.</div>}
-            {error && <div className="text-xs text-red-600 font-medium">{error}</div>}
-          </div>
-        </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
 
-        <Card className="rounded-2xl border-border p-6">
-          <div className="text-sm font-semibold">Contact details</div>
-          <div className="mt-4 space-y-3 text-sm text-muted-foreground">
-            {site?.footer?.contact?.email && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground">Email:</span>
-                <a href={`mailto:${site.footer.contact.email}`} className="hover:text-primary">
-                  {site.footer.contact.email}
-                </a>
+          {/* Left Column: Context & Info */}
+          <div className="flex flex-col justify-center">
+            <ScrollReveal variant="fade-right">
+              <h1 className="text-4xl md:text-6xl font-bold font-heading leading-tight mb-8">
+                Start a Conversation.
+              </h1>
+              <p className="text-xl text-gray-400 font-body leading-relaxed mb-12 max-w-lg">
+                We work best with organizations that value clarity, structure, and long-term thinking. We’ll respond with context — not a sales pitch.
+              </p>
+
+              <div className="space-y-8">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-white/5 rounded-full border border-white/10">
+                    <Mail className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">Email</h3>
+                    <a href="mailto:hello@digitfellas.com" className="text-gray-400 hover:text-white transition-colors">
+                      {site?.footer?.contact?.email || 'hello@digitfellas.com'}
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-white/5 rounded-full border border-white/10">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">Office</h3>
+                    <p className="text-gray-400">
+                      {site?.footer?.contact?.address || 'San Francisco, CA'}
+                    </p>
+                  </div>
+                </div>
               </div>
-            )}
-            {site?.footer?.contact?.phone && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground">Phone:</span>
-                <a href={`tel:${site.footer.contact.phone}`} className="hover:text-primary">
-                  {site.footer.contact.phone}
-                </a>
-              </div>
-            )}
-            {site?.footer?.contact?.address && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground">Address:</span>
-                <span>{site.footer.contact.address}</span>
-              </div>
-            )}
-            {!site?.footer?.contact && (
-              <div className="text-xs italic">Loading contact details...</div>
-            )}
+            </ScrollReveal>
           </div>
-        </Card>
+
+          {/* Right Column: Form */}
+          <div className="bg-[#0a0a0a] p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl">
+            <ScrollReveal variant="fade-left" delay={200}>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Name</label>
+                  <Input
+                    placeholder="John Doe"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 h-14 rounded-xl px-4 text-lg"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Email</label>
+                  <Input
+                    placeholder="john@company.com"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 h-14 rounded-xl px-4 text-lg"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Message</label>
+                  <Textarea
+                    placeholder="Tell us about your project..."
+                    rows={6}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 rounded-xl px-4 py-4 text-lg resize-none"
+                  />
+                </div>
+
+                <div className="pt-4">
+                  <Button
+                    className="w-full bg-white hover:bg-gray-200 text-black font-bold h-14 rounded-xl text-lg transition-all"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message <ArrowRight className="ml-2 h-5 w-5" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                {sent && (
+                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center font-medium animate-in fade-in slide-in-from-bottom-2">
+                    Message sent successfully! We'll be in touch.
+                  </div>
+                )}
+                {error && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center font-medium animate-in fade-in slide-in-from-bottom-2">
+                    {error}
+                  </div>
+                )}
+              </div>
+            </ScrollReveal>
+          </div>
+
+        </div>
       </div>
     </div>
   )

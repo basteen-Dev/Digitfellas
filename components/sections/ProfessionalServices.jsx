@@ -1,85 +1,53 @@
 'use client'
 
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
-export function ProfessionalServices() {
+export function ProfessionalServices({ services = [] }) {
     return (
-        <section className="relative w-full overflow-hidden bg-transparent pt-[95px] pb-[180px] md:pt-[90px] md:pb-[90px]">
-            {/* Max width container: 1200px + 80px = 1280px roughly, or use container logic */}
-            <div className="container relative z-10 max-w-[1280px] mx-auto px-10">
-                <div className="flex flex-col lg:flex-row items-center">
+        <section className="relative w-full bg-background pt-0 pb-24 transition-colors duration-300">
+            <div className="container max-w-7xl mx-auto px-6">
 
-                    {/* LEFT COLUMN (40%) */}
-                    {/* Animation: FadeInLeft (1.3s) - assuming standard duration/ease from previous sections */}
-                    <ScrollReveal
-                        variant="fade-left"
-                        className="w-full lg:w-[40%] mb-12 lg:mb-0 relative"
-                    >
-                        <div className="relative rounded-[5px] overflow-hidden shadow-2xl aspect-[4/3]">
-                            <Image
-                                src="https://avada.website/programmer/wp-content/uploads/sites/179/2023/05/info-2.jpg"
-                                alt="Professional Programming"
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 40vw"
-                            />
-                        </div>
+                {/* Section Header */}
+                <div className="max-w-3xl mx-auto mb-16 text-center">
+                    <ScrollReveal variant="fade-up">
+                        <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6">
+                            What We Build and Support
+                        </h3>
+                        <p className="text-xl text-muted-foreground leading-relaxed mx-auto max-w-2xl">
+                            We focus on engineering outcomes, not surface-level deliverables. Our capabilities span product engineering, enterprise platforms, AI-driven automation, and security assurance.
+                        </p>
                     </ScrollReveal>
+                </div>
 
-                    {/* RIGHT COLUMN (60%) */}
-                    {/* Left spacing: calc(0.166 * (100% - 80px)) approx 16.6% margin-left relative to remaining space or just padding-left */}
-                    <div className="w-full lg:w-[60%] lg:pl-[8%] xl:pl-[10%]">
+                {/* Capability Cards Grid 
+                    Mobile: grid-cols-2 (Two cards)
+                    Desktop: lg:grid-cols-4 (Single row for 4 items)
+                */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {services.map((service, index) => (
                         <ScrollReveal
-                            variant="fade-right"
-                            delay={200}
+                            key={service.id || index}
+                            variant="fade-up"
+                            delay={index * 100}
+                            className="h-full"
                         >
-                            {/* H2 Title */}
-                            <h2 className="text-4xl md:text-[46px] leading-tight font-bold text-white mb-6 font-heading">
-                                Professional Programming <br className="hidden md:block" /> Services You Can Trust
-                            </h2>
+                            <div className="group h-full p-8 rounded-3xl bg-card border border-border hover:border-primary/30 hover:bg-secondary transition-all duration-500 relative overflow-hidden text-left shadow-sm">
+                                {/* Subtle Gradient Hover Effect */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/5 group-hover:to-primary/5 transition-all duration-500" />
 
-                            {/* Paragraph */}
-                            <p className="text-gray-400 text-[15px] leading-[22px] mb-8 lg:mr-[15%]">
-                                We help you digitally transform your business with our expertise in software engineering and design. Our team is dedicated to providing high-quality code and creative solutions.
-                            </p>
-
-                            {/* Separator */}
-                            <div className="w-full h-px bg-[#ffffff]/30 my-[25px] mb-[60px]" />
-
-                            {/* Inner Row: Two Columns */}
-                            <div className="flex flex-col md:flex-row gap-8">
-                                {/* Inner Column 1 */}
-                                <div className="w-full md:w-1/2">
-                                    <h5 className="text-white text-xl font-bold mb-3 font-heading">High Quality Code</h5>
-                                    <p className="text-gray-400 text-[15px] leading-[22px] mb-4">
-                                        We ensure every line of code is clean, efficient, and scalable. Quality is our top priority for every project.
+                                <div className="relative z-10">
+                                    <h4 className="text-xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
+                                        {service.title}
+                                    </h4>
+                                    <p className="text-muted-foreground leading-relaxed text-sm group-hover:text-foreground transition-colors">
+                                        {service.description}
                                     </p>
-                                    <Link href="/services" className="inline-flex items-center text-[#ffffff] hover:text-white transition-colors relative group font-bold text-sm tracking-wide">
-                                        <span className="border-b border-[#ffffff] group-hover:border-white pb-0.5 transition-colors">Learn about creation</span>
-                                        <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" />
-                                    </Link>
-                                </div>
-
-                                {/* Inner Column 2 */}
-                                <div className="w-full md:w-1/2">
-                                    <h5 className="text-white text-xl font-bold mb-3 font-heading">Creative Design</h5>
-                                    <p className="text-gray-400 text-[15px] leading-[22px] mb-4">
-                                        Our designs are not just visually appealing but also user-centric, ensuring the best experience for your customers.
-                                    </p>
-                                    <Link href="/projects" className="inline-flex items-center text-[#ffffff] hover:text-white transition-colors relative group font-bold text-sm tracking-wide">
-                                        <span className="border-b border-[#ffffff] group-hover:border-white pb-0.5 transition-colors">Learn about design</span>
-                                        <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" />
-                                    </Link>
                                 </div>
                             </div>
-
                         </ScrollReveal>
-                    </div>
-
+                    ))}
                 </div>
+
             </div>
         </section>
     )

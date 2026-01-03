@@ -10,15 +10,15 @@ export function ServicesPromo({ services = [] }) {
     const promoServices = services.slice(0, 3)
 
     return (
-        <section className="relative w-full bg-black text-white pt-[95px] pb-[160px] md:pt-[90px] md:pb-[90px] overflow-hidden">
+        <section className="relative w-full bg-background text-foreground pt-[95px] pb-[160px] md:pt-[90px] md:pb-[90px] overflow-hidden transition-colors duration-300">
             {/* Background Image Optimization - Using native img for SVG background to avoid null response errors */}
-            <div className="absolute inset-0 z-0 opacity-40">
+            <div className="absolute inset-0 z-0 opacity-40 dark:opacity-40 opacity-5">
                 <img
                     src="/images/hero-bg.svg"
                     alt=""
-                    className="w-full h-full object-cover opacity-60"
+                    className="w-full h-full object-cover opacity-60 dark:invert-0 invert"
                 />
-                <div className="absolute inset-0 bg-black/60" />
+                <div className="absolute inset-0 bg-background/60" />
             </div>
 
             <div className="container relative z-10 max-w-[1248px] mx-auto px-10">
@@ -28,15 +28,15 @@ export function ServicesPromo({ services = [] }) {
                             key={service.id}
                             variant="fade-up"
                             delay={index * 200}
-                            className="bg-[#1a1a1a] p-[48px] rounded-[5px] transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-[#222] shadow-2xl group flex flex-col"
+                            className="bg-card p-[48px] rounded-[5px] transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-secondary shadow-lg border border-border group flex flex-col"
                         >
                             {/* Number */}
-                            <span className="text-[#ffffff] text-5xl font-bold font-heading mb-6 block opacity-50 group-hover:opacity-100 transition-opacity">
+                            <span className="text-foreground text-5xl font-bold font-heading mb-6 block opacity-50 group-hover:opacity-100 transition-opacity">
                                 {String(index + 1).padStart(2, '0')}
                             </span>
 
                             {/* Icon */}
-                            <div className="w-[82px] h-[82px] rounded-[15%] bg-[#121212] flex items-center justify-center mb-8 group-hover:bg-[#ffffff] transition-colors duration-300 overflow-hidden relative">
+                            <div className="w-[82px] h-[82px] rounded-[15%] bg-secondary flex items-center justify-center mb-8 group-hover:bg-foreground transition-colors duration-300 overflow-hidden relative">
                                 {service.icon_url ? (
                                     <div className="relative w-10 h-10 group-hover:grayscale group-hover:invert transition-all">
                                         <Image
@@ -47,24 +47,24 @@ export function ServicesPromo({ services = [] }) {
                                         />
                                     </div>
                                 ) : (
-                                    <Laptop className="w-10 h-10 text-white group-hover:text-black transition-colors" />
+                                    <Laptop className="w-10 h-10 text-foreground group-hover:text-background transition-colors" />
                                 )}
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-2xl font-bold mb-4 font-heading group-hover:text-[#ffffff] transition-colors">
+                            <h3 className="text-2xl font-bold mb-4 font-heading group-hover:text-foreground transition-colors">
                                 {service.title}
                             </h3>
 
                             {/* Description */}
-                            <p className="text-gray-400 text-[15px] leading-[26px] mb-8 flex-grow">
+                            <p className="text-muted-foreground text-[15px] leading-[26px] mb-8 flex-grow">
                                 {(service.short_description || service.description || "No description available.").slice(0, 120) + ((service.short_description || service.description || "").length > 120 ? '...' : '')}
                             </p>
 
                             {/* Button */}
                             <Link
                                 href={`/services/${service.slug}`}
-                                className="inline-flex items-center text-white font-bold text-sm tracking-wide bg-[#121212] px-6 py-3 rounded-b-[12px] rounded-t-[4px] self-start group-hover:bg-[#ffffff] group-hover:text-black transition-all"
+                                className="inline-flex items-center text-foreground font-bold text-sm tracking-wide bg-secondary px-6 py-3 rounded-b-[12px] rounded-t-[4px] self-start group-hover:bg-foreground group-hover:text-background transition-all"
                             >
                                 View details
                                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -73,7 +73,7 @@ export function ServicesPromo({ services = [] }) {
                     ))}
 
                     {promoServices.length === 0 && (
-                        <div className="col-span-3 text-center text-gray-400">
+                        <div className="col-span-3 text-center text-muted-foreground">
                             No services available to display.
                         </div>
                     )}

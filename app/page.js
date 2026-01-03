@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { getHomeData } from '@/lib/data'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
 // Lazy load below-fold sections
 const MainServicesProjects = dynamic(() => import('@/components/sections/MainServicesProjects').then(mod => ({ default: mod.MainServicesProjects })), {
@@ -16,7 +17,16 @@ const MainServicesProjects = dynamic(() => import('@/components/sections/MainSer
 const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => ({ default: mod.AboutSection })), {
   loading: () => <div className="min-h-[300px]" />,
 })
-const BlogSection = dynamic(() => import('@/components/sections/BlogSection').then(mod => ({ default: mod.BlogSection })), {
+const HowWeWorkSection = dynamic(() => import('@/components/sections/HowWeWorkSection').then(mod => ({ default: mod.HowWeWorkSection })), {
+  loading: () => <div className="min-h-[400px]" />,
+})
+const SelectedWorkSection = dynamic(() => import('@/components/sections/SelectedWorkSection').then(mod => ({ default: mod.SelectedWorkSection })), {
+  loading: () => <div className="min-h-[400px]" />,
+})
+const PartnershipsSection = dynamic(() => import('@/components/sections/PartnershipsSection').then(mod => ({ default: mod.PartnershipsSection })), {
+  loading: () => <div className="min-h-[200px]" />,
+})
+const InsightsSection = dynamic(() => import('@/components/sections/InsightsSection').then(mod => ({ default: mod.InsightsSection })), {
   loading: () => <div className="min-h-[400px]" />,
 })
 const ServicesPromo = dynamic(() => import('@/components/sections/ServicesPromo').then(mod => ({ default: mod.ServicesPromo })), {
@@ -25,15 +35,7 @@ const ServicesPromo = dynamic(() => import('@/components/sections/ServicesPromo'
 const BannerPromo = dynamic(() => import('@/components/sections/BannerPromo').then(mod => ({ default: mod.BannerPromo })), {
   loading: () => <div className="min-h-[200px]" />,
 })
-const ProcessStepsSection = dynamic(() => import('@/components/sections/ProcessSteps').then(mod => ({ default: mod.ProcessStepsSection })), {
-  loading: () => <div className="min-h-[400px]" />,
-})
-const TestimonialsSection = dynamic(() => import('@/components/sections/Testimonials').then(mod => ({ default: mod.TestimonialsSection })), {
-  loading: () => <div className="min-h-[400px]" />,
-})
-const TechStackSection = dynamic(() => import('@/components/sections/TechStack').then(mod => ({ default: mod.TechStackSection })), {
-  loading: () => <div className="min-h-[300px]" />,
-})
+
 
 export const revalidate = 60
 
@@ -45,29 +47,43 @@ export default async function Home() {
       <SiteHeader />
       <main className="min-h-screen">
         <HeroSection hero={hero} />
-        <SponsorsSection />
-        <ProfessionalServices />
-        <MainServicesProjects services={services} projects={projects} />
+        {/* SponsorsSection moved to bottom */}
+        <ProfessionalServices services={services} />
+        {/* <MainServicesProjects services={services} projects={projects} /> */}
         <AboutSection />
-        <BlogSection posts={posts} />
+        <HowWeWorkSection />
+        <SelectedWorkSection />
+        <PartnershipsSection />
+        <InsightsSection posts={posts} />
         <ServicesPromo services={services} />
         <BannerPromo />
-        <ProcessStepsSection />
-        <TestimonialsSection />
 
         {/* CTA Section */}
-        <section className="py-24 bg-[#0F0F0F] text-white text-center">
-          <div className="container px-6">
-            <h2 className="text-3xl md:text-5xl font-bold mb-8">Ready to transform your business?</h2>
-            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-10 h-16 text-xl">
-              <Link href="/contact">
-                Let's Work Together <ArrowRight className="ml-2" />
-              </Link>
-            </Button>
+        {/* CTA Section (Closing Section) */}
+        {/* CTA Section (Closing Section) */}
+        <section className="py-32 bg-background text-foreground text-center border-t border-border transition-colors duration-300">
+          <div className="container max-w-4xl mx-auto px-6">
+            <ScrollReveal variant="fade-up">
+              <h2 className="text-3xl md:text-5xl font-bold mb-10 leading-tight font-heading">
+                We work best with organizations that value clarity, structure, and long-term thinking.
+              </h2>
+
+              <div className="flex flex-col items-center gap-6">
+                <Button asChild size="lg" className="bg-foreground hover:bg-foreground/80 text-background font-bold rounded-full px-12 h-16 text-lg transition-all duration-300 transform hover:scale-105">
+                  <Link href="/contact">
+                    Start a Conversation
+                  </Link>
+                </Button>
+
+                <p className="text-muted-foreground text-sm font-body">
+                  We’ll respond with context — not a sales pitch.
+                </p>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
-        <TechStackSection />
+        <SponsorsSection />
       </main>
     </>
   )
