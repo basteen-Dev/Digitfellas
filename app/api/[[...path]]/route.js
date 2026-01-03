@@ -421,7 +421,8 @@ async function jsonGetUsers() {
 async function handleUpload(request) {
   try {
     await ensureDir(UPLOAD_DIR).catch(err => {
-      console.warn('Failed to ensure upload directory (likely read-only filesystem in deployment):', err.message)
+      console.warn('Failed to ensure upload directory:', err.message)
+      throw new Error(`Ensure dir failed: ${err.message} (${UPLOAD_DIR})`)
     })
 
     const form = await request.formData()
@@ -454,7 +455,10 @@ async function handleUpload(request) {
         console.error('File system write error:', err)
         return handleCORS(NextResponse.json({
           error: 'Failed to write file to storage.',
-          details: err.message
+          details: err.message,
+          code: err.code,
+          path: diskPath,
+          cwd: process.cwd()
         }, { status: 500 }))
       }
 
