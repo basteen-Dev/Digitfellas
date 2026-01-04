@@ -32,7 +32,7 @@ export function SelectedWorkSection() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
                     <ScrollReveal variant="fade-right" className="max-w-2xl">
                         {/* Swapped Hierarchy to match other sections */}
-                        <h3 className="text-3xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
+                        <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                             Selected Work
                         </h3>
                         <p className="text-muted-foreground text-lg font-body leading-relaxed max-w-2xl">
@@ -43,7 +43,7 @@ export function SelectedWorkSection() {
                     <ScrollReveal variant="fade-left" delay={200} className="hidden md:block">
                         <Link
                             href="/projects"
-                            className="inline-flex items-center gap-2 text-foreground font-bold hover:text-muted-foreground transition-colors group border-b border-foreground pb-1"
+                            className="inline-flex items-center gap-2 text-[#1a73e8] hover:text-[#1967d2] dark:text-foreground dark:hover:text-primary font-bold transition-colors group border-b border-[#1a73e8] dark:border-foreground pb-1"
                         >
                             View case studies
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -61,27 +61,27 @@ export function SelectedWorkSection() {
                             className="group"
                         >
                             <Link href="/projects" className="block">
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-12 border-b border-border group-hover:bg-accent transition-colors px-4 -mx-4 rounded-lg">
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-12 border-b border-border group-hover:bg-[#1a73e8] dark:group-hover:bg-accent transition-all duration-300 px-6 -mx-6 rounded-xl">
 
                                     {/* Column 1: Number & Category (Meta) */}
                                     <div className="md:col-span-3 flex flex-col justify-between">
-                                        <span className="text-muted-foreground font-mono text-sm mb-2">0{index + 1}</span>
-                                        <span className="text-primary text-sm uppercase tracking-wider font-bold">{item.category}</span>
+                                        <span className="text-[#1a73e8] dark:text-muted-foreground group-hover:text-white dark:group-hover:text-muted-foreground font-mono text-sm mb-2 transition-colors">0{index + 1}</span>
+                                        <span className="text-[#1a73e8] dark:text-primary group-hover:text-white dark:group-hover:text-primary text-sm uppercase tracking-wider font-bold flex items-center transition-colors">{item.category}</span>
                                     </div>
 
                                     {/* Column 2: Title & Arrow */}
-                                    <div className="md:col-span-5 relative">
-                                        <h4 className="text-2xl md:text-3xl font-bold text-foreground group-hover:text-foreground/80 transition-colors pr-10">
+                                    <div className="md:col-span-5 flex items-center ">
+                                        <h4 className="text-2xl md:text-xl font-bold text-foreground group-hover:text-white dark:group-hover:text-foreground transition-colors pr-10">
                                             {item.title}
                                         </h4>
                                     </div>
 
                                     {/* Column 3: Description */}
                                     <div className="md:col-span-4 flex items-center">
-                                        <p className="text-muted-foreground leading-relaxed text-base">
+                                        <p className="text-muted-foreground group-hover:text-white dark:group-hover:text-muted-foreground leading-relaxed text-base transition-colors">
                                             {item.description}
                                         </p>
-                                        <ArrowUpRight className="w-6 h-6 text-foreground ml-auto opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0" />
+                                        <ArrowUpRight className="w-6 h-6 text-[#1a73e8] dark:text-foreground group-hover:text-white dark:group-hover:text-foreground ml-auto opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 flex-shrink-0" />
                                     </div>
                                 </div>
                             </Link>
@@ -93,7 +93,7 @@ export function SelectedWorkSection() {
                 <div className="mt-12 md:hidden">
                     <Link
                         href="/projects"
-                        className="inline-flex items-center gap-2 text-foreground font-bold hover:text-muted-foreground transition-colors group border-b border-foreground pb-1"
+                        className="inline-flex items-center gap-2 text-[#1a73e8] hover:text-[#1967d2] dark:text-foreground dark:hover:text-primary font-bold transition-colors group border-b border-[#1a73e8] dark:border-foreground pb-1"
                     >
                         View case studies
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

@@ -19,7 +19,7 @@ function SlideButton({ href, text }) {
     return (
         <Link href={href || '#'}>
             <motion.div
-                className="relative overflow-hidden border-2 border-foreground text-foreground hover:text-background hover:bg-foreground transition-colors rounded-full px-[35px] py-[15px] font-bold text-sm uppercase tracking-wide cursor-pointer h-[54px] flex items-center justify-center min-w-[300px]"
+                className="relative overflow-hidden border-2 border-[#83868a] text-[#1a73e8] hover:text-white dark:border-foreground dark:text-foreground dark:hover:text-background hover:bg-[#1a73e8] dark:hover:bg-foreground transition-colors rounded-full px-[35px] py-[15px] font-bold text-sm uppercase tracking-wide cursor-pointer h-[54px] flex items-center justify-center min-w-[300px]"
                 initial="initial"
                 whileHover="hover"
             >
@@ -81,9 +81,9 @@ export function HeroSection({ hero }) {
 
     const parsedTitle = useMemo(() => {
         if (!title) return {
-            prefix: "Hello! We Are A Group Of",
-            typing: ["Skilled", "Talented", "Creative"],
-            suffix: "Developers And Programmers."
+            prefix: "Software Engineering for Reliable, Long-Term Digital Systems.",
+            typing: [],
+            suffix: ""
         }
 
         if (title.includes('|')) {
@@ -125,12 +125,12 @@ export function HeroSection({ hero }) {
                         initial={{ opacity: 0, x: -100 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1.3, ease: "easeOut" }}
-                        className="w-full lg:w-1/2 flex flex-col items-start text-left lg:pr-[50px] mb-12 lg:mb-0 relative z-20"
+                        className="w-full lg:w-1/2 flex flex-col items-start text-left lg:pr-10 mb-12 lg:mb-0 relative z-20"
                     >
                         {/* Kicker Removed from Top */}
 
                         {/* Main Heading H1 */}
-                        <h1 className="text-3xl md:text-3xl lg:text-[58px] md:leading-[1.1] font-bold text-foreground mb-6 md:mb-8 font-heading tracking-tight">
+                        <h1 className="text-3xl md:text-3xl lg:text-5xl font-extrabold text-foreground mb-6 md:mb-8 font-heading tracking-tight leading-tight">
                             {parsedTitle.prefix}
                             {parsedTitle.typing.length > 0 && <br className="hidden md:block" />}
                             {parsedTitle.typing.length > 0 && <TypingText words={parsedTitle.typing} />}
@@ -163,13 +163,13 @@ export function HeroSection({ hero }) {
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1.3, ease: "easeOut" }}
-                        className="w-full lg:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:h-[600px] flex items-center justify-center pl-0 lg:pl-[70px] mt-8 lg:mt-0"
+                        className="w-full lg:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:h-[600px] flex items-center justify-center lg:pl-10 mt-8 lg:mt-0"
                     >
                         {/* Right Column Background - Removed per user request */}
 
                         <div className="relative w-full h-full flex items-center justify-center lg:justify-end">
                             <motion.div
-                                className="relative w-full md:w-[95%] lg:w-[110%] z-20 aspect-[16/10] lg:-mr-[10%]"
+                                className="relative w-full z-20 aspect-[16/10]"
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.6 }}

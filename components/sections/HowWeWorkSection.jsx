@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
@@ -22,24 +23,33 @@ export function HowWeWorkSection() {
     ]
 
     return (
-        <section className="relative w-full bg-background text-foreground py-24 md:py-32 overflow-hidden transition-colors duration-300">
-            {/* Background Image Optimization - Using native img for SVG background to avoid null response errors */}
-            <div className="absolute inset-0 z-0 opacity-40 dark:opacity-40 opacity-5">
-                <img
-                    src="/images/hero-bg.svg"
-                    alt=""
-                    className="w-full h-full object-cover opacity-60 dark:invert-0 invert"
+        <section className="relative w-full overflow-hidden py-24 md:py-32">
+            {/* Background Layer with Blend Mode - matching BannerPromo */}
+            <div className="absolute inset-0 z-0">
+                <div
+                    className="absolute inset-0 z-10"
+                    style={{
+                        background: 'linear-gradient(180deg, rgba(46, 16, 101, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%)',
+                        mixBlendMode: 'multiply'
+                    }}
                 />
-                <div className="absolute inset-0 bg-background/60" />
+                <Image
+                    src="https://avada.website/programmer/wp-content/uploads/sites/179/2023/05/banner-1.jpg"
+                    alt="Banner Background"
+                    fill
+                    className="object-cover object-right-top grayscale opacity-50"
+                    sizes="100vw"
+                    priority
+                />
             </div>
 
             <div className="container relative z-10 max-w-[1248px] mx-auto px-6">
                 <ScrollReveal variant="fade-up" className="mb-16 text-center">
                     {/* Swapped Hierarchy as requested */}
-                    <h3 className="text-3xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
+                    <h3 className="text-3xl md:text-3xl font-bold text-white leading-tight font-heading mb-6">
                         How We Work
                     </h3>
-                    <p className="text text-muted-foreground max-w-2xl mx-auto font-body">
+                    <p className="text text-white/80 max-w-2xl mx-auto font-body">
                         We engage as a long-term technology partner, not a task-based vendor.
                     </p>
                 </ScrollReveal>
@@ -50,23 +60,23 @@ export function HowWeWorkSection() {
                             key={index}
                             variant="fade-up"
                             delay={index * 200}
-                            // Key Style Match: ServicesPromo Card Styling
-                            className="bg-card p-[48px] rounded-[5px] transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-secondary shadow-lg border border-border group flex flex-col h-full"
+                            // Semi-transparent cards on dark purple background
+                            className="bg-white/5 backdrop-blur-sm p-[48px] rounded-[5px] transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-[#1a73e8] shadow-lg border border-white/10 group flex flex-col h-full"
                         >
                             {/* Number */}
-                            <span className="text-foreground text-5xl font-bold font-heading mb-6 block opacity-50 group-hover:opacity-100 transition-opacity">
+                            <span className="text-white/40 text-5xl font-bold font-heading mb-6 block group-hover:opacity-100 group-hover:text-white transition-all">
                                 {String(index + 1).padStart(2, '0')}
                             </span>
 
                             {/* No Icon as requested */}
 
                             {/* Title */}
-                            <h3 className="text-2xl font-bold mb-4 font-heading group-hover:text-foreground transition-colors">
+                            <h3 className="text-2xl font-bold mb-4 font-heading text-white transition-colors">
                                 {pillar.title}
                             </h3>
 
                             {/* Description */}
-                            <p className="text-muted-foreground text-[15px] leading-[26px] flex-grow">
+                            <p className="text-white/70 text-[15px] leading-[26px] flex-grow group-hover:text-white transition-colors">
                                 {pillar.description}
                             </p>
                         </ScrollReveal>
@@ -78,7 +88,7 @@ export function HowWeWorkSection() {
                     <ScrollReveal variant="fade-up" delay={400}>
                         <Link
                             href="/how-we-work"
-                            className="inline-flex items-center gap-2 text-foreground font-bold text-lg hover:text-muted-foreground transition-colors group"
+                            className="inline-flex items-center gap-2 text-white hover:text-white/80 font-bold text-lg transition-colors group"
                         >
                             Learn more about how we work
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

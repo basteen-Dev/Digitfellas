@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { Facebook, Twitter, Linkedin, Instagram, Github } from 'lucide-react'
+import { useSite } from '@/lib/api-hooks'
 
 const navigation = {
     main: [
@@ -10,12 +12,26 @@ const navigation = {
         { name: 'How We Work', href: '/how-we-work' },
         { name: 'Case Studies', href: '/projects' },
         { name: 'Insights', href: '/blog' },
-        { name: 'Partnerships', href: '#partnerships' }, // Anchor or page depending on setup. Assuming anchor or section link for now based on page flow. Or maybe just text if no page exists? "Partnerships" isn't a route yet. I'll point to home hash or creating a route? User said "Platforms & Partnerships" section exists. I'll make it a hash link or just /#partnerships
+        { name: 'Partnerships', href: '#partnerships' },
         { name: 'Contact', href: '/contact' },
     ]
 }
 
+const getSocialIcon = (label) => {
+    switch (label.toLowerCase()) {
+        case 'facebook': return Facebook
+        case 'twitter': return Twitter
+        case 'linkedin': return Linkedin
+        case 'instagram': return Instagram
+        case 'github': return Github
+        default: return null
+    }
+}
+
 export function SiteFooter() {
+    const { site } = useSite()
+    const socials = site?.footer?.socials || []
+
     return (
         <footer className="bg-background text-foreground border-t border-border pt-24 pb-12 transition-colors duration-300">
             <div className="container max-w-7xl mx-auto px-6">
@@ -26,27 +42,57 @@ export function SiteFooter() {
                     <div className="md:col-span-5">
                         <Link href="/" className="inline-block mb-8">
                             <Image
+                                src="/images/digitfellas-Black_logo-final.png"
+                                alt="DigitFellas"
+                                width={180}
+                                height={40}
+                                className="h-[40px] w-auto object-contain dark:hidden scale-[1.2] origin-left"
+                                priority
+                            />
+                            <Image
                                 src="/images/digitfellas_logo.png"
                                 alt="DigitFellas"
                                 width={180}
                                 height={40}
-                                className="h-[40px] w-auto object-contain dark:invert-0 invert"
+                                className="h-[40px] w-auto object-contain hidden dark:block"
                                 priority
                             />
                         </Link>
-                        <p className="text-muted-foreground text-lg leading-relaxed max-w-sm">
+                        <p className="text-muted-foreground text-lg leading-relaxed max-w-sm mb-8">
                             Digit Fellas is a software engineering firm focused on building reliable digital systems for long-term business value.
                         </p>
+
+                        {/* Social Links */}
+                        {socials.length > 0 && (
+                            <div className="flex items-center gap-6">
+                                {socials.map((social) => {
+                                    const Icon = getSocialIcon(social.label)
+                                    if (!Icon) return null
+                                    return (
+                                        <a
+                                            key={social.id}
+                                            href={social.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-[#83868a] hover:text-[#1a73e8] transition-colors p-2 -ml-2"
+                                            aria-label={social.label}
+                                        >
+                                            <Icon className="w-5 h-5" />
+                                        </a>
+                                    )
+                                })}
+                            </div>
+                        )}
                     </div>
 
                     {/* Navigation */}
-                    <div className="md:col-span-7 flex flex-col md:items-end">
-                        <nav className="grid grid-cols-2 sm:grid-cols-3 gap-x-12 gap-y-4 text-left md:text-right">
+                    <div className="md:col-span-7 flex flex-col items-start md:items-end">
+                        <nav className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-4 text-left">
                             {navigation.main.map((item) => (
                                 <Link
                                     key={item.name}
                                     href={item.href}
-                                    className="text-muted-foreground hover:text-foreground transition-colors text-sm font-bold uppercase tracking-wide"
+                                    className="text-sm font-bold transition-colors py-2 text-[#83868a] hover:text-[#1a73e8] dark:text-foreground/80 dark:hover:text-foreground"
                                 >
                                     {item.name}
                                 </Link>
@@ -56,9 +102,16 @@ export function SiteFooter() {
 
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-muted-foreground text-sm">
-                    <p>© Digit Fellas. Software Engineering.</p>
+                <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-muted-foreground text-sm font-medium">
+                    <p>© {new Date().getFullYear()} Digit Fellas. All rights reserved.</p>
+                    <div className="flex items-center gap-8">
+                        <Link href="/terms" className="hover:text-[#1a73e8] transition-colors">
+                            Terms & Conditions
+                        </Link>
+                        <Link href="/privacy" className="hover:text-[#1a73e8] transition-colors">
+                            Privacy Policy
+                        </Link>
+                    </div>
                 </div>
 
             </div>

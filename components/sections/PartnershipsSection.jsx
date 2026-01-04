@@ -33,7 +33,7 @@ export function PartnershipsSection() {
                     {/* Header & Content */}
                     <div className="max-w-xl text-center">
                         <ScrollReveal variant="fade-right">
-                            <h3 className="text-3xl font-bold text-foreground leading-tight font-heading mb-6">
+                            <h3 className="text-2xl font-bold text-foreground leading-tight font-heading mb-6">
                                 Platforms & Partnerships
                             </h3>
                             <p className="text-muted-foreground text-lg font-body leading-relaxed mb-6">

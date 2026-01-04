@@ -4,7 +4,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronDown, ChevronRight, Code2, Sun, Moon } from 'lucide-react'
+import {
+    Menu, X, ChevronDown, ChevronRight, Code2, Sun, Moon,
+    Newspaper, Briefcase, Layout, Smartphone, Globe,
+    Server, Cpu, Layers, Settings, Terminal, Database,
+    Shield, BarChart3, Cloud, Search, Zap, MessageSquare
+} from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
@@ -45,14 +50,14 @@ export function SiteHeader() {
             title: 'Insights',
             description: 'Latest trends, thoughts, and industry updates.',
             url: '/blog',
-            icon: '/icons/insights.svg'
+            icon: Newspaper
         },
         {
             id: 'case-studies',
             title: 'Case Studies',
             description: 'Real-world examples of our success stories.',
             url: '/projects',
-            icon: '/icons/casestudies.svg'
+            icon: Briefcase
         },
     ]
 
@@ -80,6 +85,32 @@ export function SiteHeader() {
         hover: { y: 0 },
     }
 
+    const getServiceIcon = (title = '') => {
+        const t = title.toLowerCase()
+        if (t.includes('web')) return Globe
+        if (t.includes('app') || t.includes('mobile')) return Smartphone
+        if (t.includes('ai') || t.includes('learning') || t.includes('automation')) return Cpu
+        if (t.includes('design') || t.includes('ux') || t.includes('interface')) return Layout
+        if (t.includes('cloud') || t.includes('devops') || t.includes('infrastructure')) return Cloud
+        if (t.includes('data') || t.includes('analytics') || t.includes('insight')) return Database
+        if (t.includes('security') || t.includes('privacy') || t.includes('assurance')) return Shield
+        if (t.includes('strategy') || t.includes('consult') || t.includes('digital')) return BarChart3
+        if (t.includes('product') || t.includes('engineer')) return Zap
+        if (t.includes('enterprise') || t.includes('platform')) return Layers
+        return Code2 // Default
+    }
+
+    const getMenuIcon = (id) => {
+        switch (id) {
+            case 'about': return Newspaper
+            case 'capabilities': return Layers
+            case 'how-we-work': return Settings
+            case 'resources': return Briefcase
+            case 'contact': return MessageSquare // Need to import this
+            default: return Code2
+        }
+    }
+
     return (
         <motion.header
             initial={{ opacity: 0, y: -20 }}
@@ -100,12 +131,20 @@ export function SiteHeader() {
                 <Link href="/" className="flex items-center gap-3 group relative z-50">
                     <div className="transition-all duration-300 relative h-[50px] w-auto">
                         <Image
+                            src="/images/digitfellas-Black_logo-final.png"
+                            alt="DigitFellas Logo"
+                            width={220}
+                            height={60}
+                            priority
+                            className="object-contain h-full w-auto dark:hidden scale-[1.2] origin-left"
+                        />
+                        <Image
                             src="/images/digitfellas_logo.png"
                             alt="DigitFellas Logo"
                             width={220}
                             height={60}
                             priority
-                            className="object-contain h-full w-auto dark:invert-0 invert"
+                            className="object-contain h-full w-auto hidden dark:block"
                         />
                     </div>
                 </Link>
@@ -120,12 +159,12 @@ export function SiteHeader() {
                             <Link
                                 href={item.url}
                                 className={cx(
-                                    "text-sm font-bold transition-colors relative py-4 flex items-center gap-1",
-                                    "text-foreground/80 hover:text-foreground" // Ensure strict black/white contrast
+                                    "text-sm font-bold transition-colors relative py-4 flex items-center gap-2",
+                                    "text-[#83868a] hover:text-[#1a73e8] dark:text-foreground/80 dark:hover:text-foreground" // Corporate Gray default
                                 )}
                             >
                                 {item.label}
-                                {item.type === 'dropdown' && <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />}
+                                {item.type === 'dropdown' && <ChevronDown className="w-3 h-3 text-[#1a73e8] dark:text-foreground transition-transform group-hover:rotate-180" />}
                             </Link>
 
                             {/* Mega Menu Dropdown */}
@@ -142,25 +181,28 @@ export function SiteHeader() {
                                             <div className="bg-background/95 backdrop-blur-xl border-b border-border shadow-2xl py-12 w-full">
                                                 <div className="container mx-auto max-w-7xl px-6 md:px-12">
                                                     <div className="grid grid-cols-4 gap-8">
-                                                        {(item.id === 'capabilities' ? services : resourcesData).map((subItem) => (
-                                                            <Link
-                                                                key={subItem.id}
-                                                                href={item.id === 'capabilities' ? `/services/${subItem.slug}` : subItem.url}
-                                                                className="flex items-start gap-4 p-4 rounded-xl hover:bg-accent/50 transition-all group/item border border-transparent hover:border-border/50"
-                                                            >
-                                                                <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform shadow-sm">
-                                                                    <Code2 className="w-5 h-5 text-foreground" />
-                                                                </div>
-                                                                <div>
-                                                                    <h4 className="text-base font-bold text-foreground mb-1 group-hover/item:text-primary transition-colors">
-                                                                        {subItem.title || subItem.label}
-                                                                    </h4>
-                                                                    <p className="text-xs text-muted-foreground leading-relaxed group-hover/item:text-foreground/80 transition-colors">
-                                                                        {item.id === 'capabilities' ? subItem.short_description || 'Professional digital services' : subItem.description}
-                                                                    </p>
-                                                                </div>
-                                                            </Link>
-                                                        ))}
+                                                        {(item.id === 'capabilities' ? services : resourcesData).map((subItem) => {
+                                                            const Icon = item.id === 'capabilities' ? getServiceIcon(subItem.title) : (subItem.icon || Code2)
+                                                            return (
+                                                                <Link
+                                                                    key={subItem.id}
+                                                                    href={item.id === 'capabilities' ? `/services/${subItem.slug}` : subItem.url}
+                                                                    className="flex items-start gap-4 p-4 rounded-xl hover:bg-[#1a73e8] dark:hover:bg-accent/50 transition-all group/item border border-transparent hover:border-border/50"
+                                                                >
+                                                                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform shadow-sm">
+                                                                        <Icon className="w-5 h-5 text-[#1a73e8] dark:text-foreground dark:group-hover/item:text-foreground" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <h4 className="text-base font-bold text-foreground mb-1 group-hover/item:text-white dark:group-hover/item:text-primary transition-colors">
+                                                                            {subItem.title || subItem.label}
+                                                                        </h4>
+                                                                        <p className="text-xs text-muted-foreground leading-relaxed group-hover/item:text-white dark:group-hover/item:text-foreground/80 transition-colors">
+                                                                            {item.id === 'capabilities' ? subItem.short_description || 'Professional digital services' : subItem.description}
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            )
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,7 +224,7 @@ export function SiteHeader() {
 
                     <Link href="/contact">
                         <motion.div
-                            className="relative overflow-hidden border-2 border-foreground text-foreground hover:text-background hover:bg-foreground transition-colors rounded-full px-[35px] py-[12px] font-bold text-sm uppercase tracking-wide cursor-pointer h-[52px] flex items-center justify-center min-w-[260px]"
+                            className="relative overflow-hidden border-2 border-[#83868a] text-[#1a73e8] hover:text-white dark:border-foreground dark:text-foreground dark:hover:text-background hover:bg-[#1a73e8] dark:hover:bg-foreground transition-colors rounded-full px-[35px] py-[12px] font-bold text-sm uppercase tracking-wide cursor-pointer h-[52px] flex items-center justify-center min-w-[260px]"
                             initial="initial"
                             whileHover="hover"
                         >
@@ -205,7 +247,7 @@ export function SiteHeader() {
                             {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                         </button>
                     )}
-                    <Button variant="ghost" size="icon" className="text-foreground hover:bg-accent" onClick={() => setOpen(true)}>
+                    <Button variant="ghost" size="icon" className="text-[#83868a] dark:text-foreground hover:bg-accent" onClick={() => setOpen(true)}>
                         <Menu className="w-6 h-6" />
                     </Button>
                 </div>
@@ -226,16 +268,24 @@ export function SiteHeader() {
                             <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
                                 <div className="relative h-[40px] w-auto">
                                     <Image
+                                        src="/images/digitfellas-Black_logo-final.png"
+                                        alt="DigitFellas Logo"
+                                        width={180}
+                                        height={40}
+                                        priority
+                                        className="object-contain h-full w-auto dark:hidden scale-[1.2] origin-left"
+                                    />
+                                    <Image
                                         src="/images/digitfellas_logo.png"
                                         alt="DigitFellas Logo"
                                         width={180}
                                         height={40}
                                         priority
-                                        className="object-contain h-full w-auto dark:invert-0 invert"
+                                        className="object-contain h-full w-auto hidden dark:block"
                                     />
                                 </div>
                             </Link>
-                            <Button variant="ghost" size="icon" className="text-foreground -mr-2" onClick={() => setOpen(false)}>
+                            <Button variant="ghost" size="icon" className="text-[#83868a] dark:text-foreground -mr-2" onClick={() => setOpen(false)}>
                                 <X className="w-8 h-8" />
                             </Button>
                         </div>
@@ -244,22 +294,24 @@ export function SiteHeader() {
                             {items.map((item) => (
                                 <div key={item.id} className="border-b border-border/50 pb-6 last:border-0">
                                     <div className="flex items-center justify-between group cursor-pointer" onClick={() => item.type === 'dropdown' ? setFocusedItem(focusedItem === item.id ? null : item.id) : setOpen(false)}>
-                                        <Link
-                                            href={item.url}
-                                            className="text-3xl font-bold text-foreground hover:text-muted-foreground transition-colors flex-1"
-                                            onClick={(e) => {
-                                                if (item.type === 'dropdown') {
-                                                    e.preventDefault();
-                                                    setFocusedItem(focusedItem === item.id ? null : item.id);
-                                                }
-                                            }}
-                                        >
-                                            {item.label}
-                                        </Link>
+                                        <div className="flex items-center gap-4 flex-1">
+                                            <Link
+                                                href={item.url}
+                                                className="text-3xl font-bold text-[#83868a] hover:text-[#1a73e8] dark:text-foreground dark:hover:text-muted-foreground transition-colors flex-1"
+                                                onClick={(e) => {
+                                                    if (item.type === 'dropdown') {
+                                                        e.preventDefault();
+                                                        setFocusedItem(focusedItem === item.id ? null : item.id);
+                                                    }
+                                                }}
+                                            >
+                                                {item.label}
+                                            </Link>
+                                        </div>
                                         {item.type === 'dropdown' && (
                                             <ChevronDown
                                                 className={cx(
-                                                    "w-6 h-6 text-muted-foreground transition-transform duration-300",
+                                                    "w-6 h-6 text-[#1a73e8] dark:text-muted-foreground transition-transform duration-300",
                                                     focusedItem === item.id ? "rotate-180" : ""
                                                 )}
                                             />
@@ -283,8 +335,11 @@ export function SiteHeader() {
                                                             onClick={() => setOpen(false)}
                                                             className="flex items-center gap-3 group/mob-item"
                                                         >
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-border group-hover/mob-item:bg-primary transition-colors"></span>
-                                                            <span className="text-lg text-muted-foreground group-hover/mob-item:text-foreground transition-colors">
+                                                            {(() => {
+                                                                const Icon = item.id === 'capabilities' ? getServiceIcon(s.title) : (s.icon || Code2)
+                                                                return <Icon className="w-5 h-5 text-[#83868a] group-hover/mob-item:text-[#1a73e8] transition-colors" />
+                                                            })()}
+                                                            <span className="text-lg text-muted-foreground group-hover/mob-item:text-[#1a73e8] dark:group-hover/mob-item:text-foreground transition-colors">
                                                                 {s.title || s.label}
                                                             </span>
                                                         </Link>
@@ -299,7 +354,7 @@ export function SiteHeader() {
 
                         <div className="p-[30px] border-t border-border">
                             <Link href="/contact" onClick={() => setOpen(false)}>
-                                <Button className="w-full h-14 rounded-full bg-foreground text-background text-lg font-bold hover:opacity-90">
+                                <Button className="w-full h-14 rounded-full border-2 border-[#83868a] bg-background text-[#1a73e8] text-lg font-bold hover:bg-[#1a73e8] hover:text-white transition-all">
                                     Start a conversation
                                 </Button>
                             </Link>
