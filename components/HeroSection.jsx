@@ -12,16 +12,7 @@ export function HeroSection({ hero, className = '' }) {
         <section className={`relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden ${className}`}>
             <div className='absolute inset-0 z-0'>
                 {/* Mobile Image */}
-                <div className='block md:hidden w-full h-full relative'>
-                    <Image
-                        src={mobileMedia?.url || fallbackImage}
-                        alt={hero.title || 'Hero'}
-                        fill
-                        priority
-                        className='object-cover'
-                        sizes="100vw"
-                    />
-                </div>
+               
                 {/* Desktop Image */}
                 <div className='hidden md:block w-full h-full relative'>
                     <Image

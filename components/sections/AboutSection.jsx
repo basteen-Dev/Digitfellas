@@ -19,11 +19,11 @@ export function AboutSection() {
                     <div className="w-full lg:w-1/2">
                         <ScrollReveal variant="fade-right">
                             {/* Section Title removed as requested */}
-                            <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-8 text-left">
+                            <h3 className="text-3xl md:text-3xl font-bold text-foreground leading-tight mb-8 text-left">
                                 Experience Shapes <br /> Our Approach
                             </h3>
 
-                            <div className="space-y-6 text-xl text-muted-foreground leading-relaxed mb-10">
+                            <div className="space-y-6 text text-muted-foreground leading-relaxed mb-10">
                                 <p>
                                     With over 20 years in the software industry, we’ve worked across technologies, platforms, and business cycles. We’ve seen what scales, what breaks, and what quietly becomes expensive over time.
                                 </p>

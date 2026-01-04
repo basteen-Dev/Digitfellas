@@ -29,9 +29,9 @@ export function PartnershipsSection() {
         <section className="relative w-full bg-background py-24 border-t border-border overflow-hidden transition-colors duration-300">
             <div className="container max-w-7xl mx-auto px-6">
 
-                <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-16">
+                <div className="flex flex-col md:flex-row items-center justify-center mb-16">
                     {/* Header & Content */}
-                    <div className="max-w-xl">
+                    <div className="max-w-xl text-center">
                         <ScrollReveal variant="fade-right">
                             <h3 className="text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                                 Platforms & Partnerships
@@ -39,7 +39,7 @@ export function PartnershipsSection() {
                             <p className="text-muted-foreground text-lg font-body leading-relaxed mb-6">
                                 We work within established technology ecosystems and follow platform best practices to ensure reliability, compliance, and long-term viability.
                             </p>
-                            <p className="text-muted-foreground text-sm">
+                            <p className="text-muted-foreground text-sm font-bold">
                                 Modern Web, Cloud, and Automation Technologies
                             </p>
                         </ScrollReveal>

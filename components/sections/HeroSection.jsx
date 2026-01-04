@@ -130,7 +130,7 @@ export function HeroSection({ hero }) {
                         {/* Kicker Removed from Top */}
 
                         {/* Main Heading H1 */}
-                        <h1 className="text-4xl md:text-5xl lg:text-[58px] md:leading-[1.1] font-bold text-foreground mb-6 md:mb-8 font-heading tracking-tight">
+                        <h1 className="text-3xl md:text-3xl lg:text-[58px] md:leading-[1.1] font-bold text-foreground mb-6 md:mb-8 font-heading tracking-tight">
                             {parsedTitle.prefix}
                             {parsedTitle.typing.length > 0 && <br className="hidden md:block" />}
                             {parsedTitle.typing.length > 0 && <TypingText words={parsedTitle.typing} />}
@@ -146,7 +146,7 @@ export function HeroSection({ hero }) {
                         {/* Kicker: Moved Below Content, Smaller Text */}
                         <div className="mb-[40px] relative inline-block">
                             <span className="text-muted-foreground font-semibold tracking-widest text-xs uppercase border-b border-border pb-1">
-                                {kicker || 'Avada Programmer'}
+                                {kicker || 'Digitfellas'}
                             </span>
                         </div>
 

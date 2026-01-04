@@ -34,12 +34,12 @@ export function HowWeWorkSection() {
             </div>
 
             <div className="container relative z-10 max-w-[1248px] mx-auto px-6">
-                <ScrollReveal variant="fade-up" className="mb-16 text-left">
+                <ScrollReveal variant="fade-up" className="mb-16 text-center">
                     {/* Swapped Hierarchy as requested */}
-                    <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight font-heading mb-6">
+                    <h3 className="text-3xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                         How We Work
                     </h3>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-body">
+                    <p className="text text-muted-foreground max-w-2xl mx-auto font-body">
                         We engage as a long-term technology partner, not a task-based vendor.
                     </p>
                 </ScrollReveal>

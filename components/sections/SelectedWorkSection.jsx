@@ -32,7 +32,7 @@ export function SelectedWorkSection() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
                     <ScrollReveal variant="fade-right" className="max-w-2xl">
                         {/* Swapped Hierarchy to match other sections */}
-                        <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight font-heading mb-6">
+                        <h3 className="text-3xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                             Selected Work
                         </h3>
                         <p className="text-muted-foreground text-lg font-body leading-relaxed max-w-2xl">

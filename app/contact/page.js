@@ -70,10 +70,10 @@ export default function Page() {
           {/* Left Column: Context & Info */}
           <div className="flex flex-col justify-center">
             <ScrollReveal variant="fade-right">
-              <h1 className="text-4xl md:text-6xl font-bold font-heading leading-tight mb-8">
+              <h1 className="text-4xl md:text-4xl font-bold font-heading leading-tight mb-8">
                 Start a Conversation.
               </h1>
-              <p className="text-xl text-gray-400 font-body leading-relaxed mb-12 max-w-lg">
+              <p className="text text-gray-400 font-body leading-relaxed mb-12 max-w-lg">
                 We work best with organizations that value clarity, structure, and long-term thinking. We’ll respond with context — not a sales pitch.
               </p>
 
@@ -97,7 +97,7 @@ export default function Page() {
                   <div>
                     <h3 className="text-lg font-bold text-white mb-1">Office</h3>
                     <p className="text-gray-400">
-                      {site?.footer?.contact?.address || 'San Francisco, CA'}
+                      {site?.footer?.contact?.address || 'chennai, Tamil Nadu, India'}
                     </p>
                   </div>
                 </div>
