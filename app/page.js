@@ -60,21 +60,28 @@ export default async function Home() {
         {/* CTA Section */}
         {/* CTA Section (Closing Section) */}
         {/* CTA Section (Closing Section) */}
-        <section className="py-32 bg-background text-foreground text-center border-t border-border transition-colors duration-300">
-          <div className="container max-w-4xl mx-auto px-6">
+        {/* CTA Section (Closing Section) */}
+        <section className="relative py-32 overflow-hidden border-t border-border transition-colors duration-300">
+          {/* Corporate Background: Subtle Grid + Radial Glow */}
+          <div className="absolute inset-0 bg-background z-0">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px]"></div>
+          </div>
+
+          <div className="container relative z-10 max-w-4xl mx-auto px-6 text-center">
             <ScrollReveal variant="fade-up">
-              <h2 className="text-3xl md:text-5xl font-bold mb-10 leading-tight font-heading">
-                We work best with organizations that value clarity, structure, and long-term thinking.
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight font-heading tracking-tight text-foreground">
+                We work best with organizations that value <span className="text-primary">clarity</span>, <span className="text-primary">structure</span>, and <span className="text-primary">long-term thinking</span>.
               </h2>
 
-              <div className="flex flex-col items-center gap-6">
-                <Button asChild size="lg" className="bg-foreground hover:bg-foreground/80 text-background font-bold rounded-full px-12 h-16 text-lg transition-all duration-300 transform hover:scale-105">
+              <div className="flex flex-col items-center gap-8 mt-12">
+                <Button asChild size="lg" className="bg-foreground hover:bg-foreground/90 text-background font-bold rounded-full px-12 h-16 text-lg transition-all duration-300 shadow-2xl hover:scale-105 hover:shadow-primary/20">
                   <Link href="/contact">
                     Start a Conversation
                   </Link>
                 </Button>
 
-                <p className="text-muted-foreground text-sm font-body">
+                <p className="text-muted-foreground text-base font-medium font-body max-w-lg mx-auto">
                   We’ll respond with context — not a sales pitch.
                 </p>
               </div>

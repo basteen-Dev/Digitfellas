@@ -19,7 +19,7 @@ export function AboutSection() {
                     <div className="w-full lg:w-1/2">
                         <ScrollReveal variant="fade-right">
                             {/* Section Title removed as requested */}
-                            <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-8 text-center lg:text-left">
+                            <h3 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-8 text-left">
                                 Experience Shapes <br /> Our Approach
                             </h3>
 
