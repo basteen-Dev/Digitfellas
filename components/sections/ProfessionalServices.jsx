@@ -45,7 +45,7 @@ export function ProfessionalServices({ services = [] }) {
                             delay={index * 100}
                             className="h-full"
                         >
-                            <div className="group h-full p-8 rounded-3xl bg-card border border-border hover:border-[#331676]/30 hover:bg-[#331676] transition-all duration-500 relative overflow-hidden text-left shadow-sm">
+                            <div className="group h-full p-8 rounded-3xl bg-[#0c053e] border border-border hover:border-[#331676]/30 hover:bg-[#331676] transition-all duration-500 relative overflow-hidden text-left shadow-sm">
                                 {/* Subtle Gradient Hover Effect */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/0 to-primary/0 dark:group-hover:from-primary/5 dark:group-hover:to-primary/5 transition-all duration-500" />
 

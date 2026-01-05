@@ -36,7 +36,7 @@ export function HowWeWorkSection({ data }) {
                 <div
                     className="absolute inset-0 z-10"
                     style={{
-                        background: 'rgba(0, 0, 0, 0.4)'
+                        background: 'rgba(12, 5, 62, 0.5)'
                     }}
                 />
 
@@ -50,7 +50,7 @@ export function HowWeWorkSection({ data }) {
                     src="/images/banner-1.jpg"
                     alt="Work Banner"
                     fill
-                    className="object-cover object-right-top grayscale opacity-70"
+                    className="object-cover object-right-top opacity-80"
                     sizes="100vw"
                     priority
                 />
@@ -75,7 +75,7 @@ export function HowWeWorkSection({ data }) {
                             variant="fade-up"
                             delay={index * 200}
                             // Restored Glassmorphism Card Style
-                            className="bg-white/5 backdrop-blur-sm p-[48px] rounded-xl transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-[#0c053e] shadow-lg border border-white/10 group flex flex-col h-full"
+                            className="bg-[#0c053e] backdrop-blur-sm p-[48px] rounded-xl transform transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 hover:bg-[#331676] shadow-lg border border-white/10 group flex flex-col h-full"
                         >
                             {/* Number */}
                             <span className="text-white/40 text-5xl font-bold font-heading mb-6 block group-hover:opacity-100 group-hover:text-white transition-all">
