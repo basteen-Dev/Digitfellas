@@ -18,7 +18,7 @@ export function MainServicesProjects({ services = [], projects = [] }) {
                 {/* INTRO SECTION */}
                 <ScrollReveal variant="fade-up" className="text-center mb-20">
                     <h2 className="text-4xl md:text-[46px] font-bold mb-6 font-heading">Our Services</h2>
-                    <p className="text-gray-400 text-[15px] leading-[26px] mx-auto md:max-w-[60%]">
+                    <p className="text-gray-400 text-base leading-[26px] mx-auto md:max-w-[60%]">
                         We offer a comprehensive range of services to help you achieve your digital goals. From custom software development to stunning design, we have you covered.
                     </p>
                 </ScrollReveal>
@@ -49,7 +49,7 @@ export function MainServicesProjects({ services = [], projects = [] }) {
                             <h5 className="text-xl font-bold mb-4 font-heading group-hover:text-[#ffffff] transition-colors">
                                 <Link href={`/services/${service.slug}`}>{service.title}</Link>
                             </h5>
-                            <p className="text-gray-400 text-[15px] leading-[26px]">
+                            <p className="text-gray-400 text-base leading-[26px]">
                                 {(service.short_description || service.excerpt || "Professional service description goes here.").slice(0, 120) + ((service.short_description || service.excerpt || "").length > 120 ? '...' : '')}
                             </p>
                         </ScrollReveal>

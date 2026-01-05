@@ -35,7 +35,7 @@ export function SelectedWorkSection() {
                         <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                             Selected Work
                         </h3>
-                        <p className="text-muted-foreground text-lg font-body leading-relaxed max-w-2xl">
+                        <p className="text-muted-foreground text-base font-body leading-relaxed max-w-2xl">
                             A snapshot of how we approach real-world engineering challenges.
                         </p>
                     </ScrollReveal>

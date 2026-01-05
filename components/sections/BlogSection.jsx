@@ -59,7 +59,7 @@ export function BlogSection({ posts = [] }) {
                                 <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                             </h5>
 
-                            <p className="text-gray-500 text-[15px] leading-[26px] mb-6 line-clamp-3">
+                            <p className="text-gray-500 text-base leading-relaxed mb-6 line-clamp-3">
                                 {(post.short_description || post.excerpt || "No description available.").slice(0, 120) + ((post.short_description || post.excerpt || "").length > 120 ? '...' : '')}
                             </p>
 

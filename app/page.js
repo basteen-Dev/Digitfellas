@@ -40,7 +40,7 @@ const BannerPromo = dynamic(() => import('@/components/sections/BannerPromo').th
 export const revalidate = 60
 
 export default async function Home() {
-  const { hero, services, projects, posts } = await getHomeData()
+  const { hero, services, projects, posts, experience, howWeWork, partnerships } = await getHomeData()
 
   return (
     <>
@@ -50,10 +50,10 @@ export default async function Home() {
         {/* SponsorsSection moved to bottom */}
         <ProfessionalServices services={services} />
         {/* <MainServicesProjects services={services} projects={projects} /> */}
-        <AboutSection />
-        <HowWeWorkSection />
+        <AboutSection data={experience} />
+        <HowWeWorkSection data={howWeWork} />
         <SelectedWorkSection />
-        <PartnershipsSection />
+        <PartnershipsSection data={partnerships} />
         <InsightsSection posts={posts} />
 
 

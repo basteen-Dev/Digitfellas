@@ -70,6 +70,18 @@ export function SiteHeader() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (open) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        return () => {
+            document.body.style.overflow = 'unset'
+        }
+    }, [open])
+
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark')
     }
@@ -164,7 +176,7 @@ export function SiteHeader() {
                                 )}
                             >
                                 {item.label}
-                                {item.type === 'dropdown' && <ChevronDown className="w-3 h-3 text-[#1a73e8] dark:text-foreground transition-transform group-hover:rotate-180" />}
+                                {item.type === 'dropdown' && <ChevronDown className="w-3 h-3 text-[#83868a] dark:text-foreground transition-transform group-hover:rotate-180" />}
                             </Link>
 
                             {/* Mega Menu Dropdown */}
@@ -261,7 +273,7 @@ export function SiteHeader() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-[20053] bg-background flex flex-col lg:hidden"
+                        className="fixed top-0 left-0 right-0 bottom-0 z-[99999] bg-background flex flex-col lg:hidden"
                     >
                         {/* Header within Mobile Menu */}
                         <div className="flex items-center justify-between px-[30px] h-[80px] border-b border-border">
@@ -293,7 +305,7 @@ export function SiteHeader() {
                         <div className="flex-1 overflow-y-auto py-8 px-[30px] flex flex-col gap-8">
                             {items.map((item) => (
                                 <div key={item.id} className="border-b border-border/50 pb-6 last:border-0">
-                                    <div className="flex items-center justify-between group cursor-pointer" onClick={() => item.type === 'dropdown' ? setFocusedItem(focusedItem === item.id ? null : item.id) : setOpen(false)}>
+                                    <div className="flex items-center justify-between group">
                                         <div className="flex items-center gap-4 flex-1">
                                             <Link
                                                 href={item.url}
@@ -302,6 +314,8 @@ export function SiteHeader() {
                                                     if (item.type === 'dropdown') {
                                                         e.preventDefault();
                                                         setFocusedItem(focusedItem === item.id ? null : item.id);
+                                                    } else {
+                                                        setOpen(false);
                                                     }
                                                 }}
                                             >
@@ -311,9 +325,10 @@ export function SiteHeader() {
                                         {item.type === 'dropdown' && (
                                             <ChevronDown
                                                 className={cx(
-                                                    "w-6 h-6 text-[#1a73e8] dark:text-muted-foreground transition-transform duration-300",
+                                                    "w-6 h-6 text-[#83868a] dark:text-muted-foreground transition-transform duration-300 cursor-pointer",
                                                     focusedItem === item.id ? "rotate-180" : ""
                                                 )}
+                                                onClick={() => setFocusedItem(focusedItem === item.id ? null : item.id)}
                                             />
                                         )}
                                     </div>

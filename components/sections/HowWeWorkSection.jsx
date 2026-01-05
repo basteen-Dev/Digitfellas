@@ -6,21 +6,27 @@ import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
-export function HowWeWorkSection() {
-    const pillars = [
-        {
-            title: "Discovery & Audit First",
-            description: "We begin by understanding business context, existing systems, constraints, and risks before proposing solutions."
-        },
-        {
-            title: "Structured Delivery",
-            description: "Clear milestones, documented decisions, and predictable execution — without unnecessary process overhead."
-        },
-        {
-            title: "Long-Term Ownership",
-            description: "We design systems with future teams, scale, audits, and evolution in mind."
-        }
-    ]
+export function HowWeWorkSection({ data }) {
+    const {
+        title = "How We Work",
+        subtitle = "We engage as a long-term technology partner, not a task-based vendor.",
+        pillars = [
+            {
+                title: "Discovery & Audit First",
+                description: "We begin by understanding business context, existing systems, constraints, and risks before proposing solutions."
+            },
+            {
+                title: "Structured Delivery",
+                description: "Clear milestones, documented decisions, and predictable execution — without unnecessary process overhead."
+            },
+            {
+                title: "Long-Term Ownership",
+                description: "We design systems with future teams, scale, audits, and evolution in mind."
+            }
+        ],
+        cta_text = "Learn more about how we work",
+        cta_link = "/how-we-work"
+    } = data || {}
 
     return (
         <section className="relative w-full overflow-hidden py-24 md:py-32">
@@ -47,15 +53,15 @@ export function HowWeWorkSection() {
                 <ScrollReveal variant="fade-up" className="mb-16 text-center">
                     {/* Swapped Hierarchy as requested */}
                     <h3 className="text-3xl md:text-3xl font-bold text-white leading-tight font-heading mb-6">
-                        How We Work
+                        {title}
                     </h3>
-                    <p className="text text-white/80 max-w-2xl mx-auto font-body">
-                        We engage as a long-term technology partner, not a task-based vendor.
+                    <p className="text-base text-white/80 max-w-2xl mx-auto font-body">
+                        {subtitle}
                     </p>
                 </ScrollReveal>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                    {pillars.map((pillar, index) => (
+                    {Array.isArray(pillars) && pillars.map((pillar, index) => (
                         <ScrollReveal
                             key={index}
                             variant="fade-up"
@@ -76,7 +82,7 @@ export function HowWeWorkSection() {
                             </h3>
 
                             {/* Description */}
-                            <p className="text-white/70 text-[15px] leading-[26px] flex-grow group-hover:text-white transition-colors">
+                            <p className="text-white/70 text-base leading-[26px] flex-grow group-hover:text-white transition-colors">
                                 {pillar.description}
                             </p>
                         </ScrollReveal>
@@ -87,10 +93,10 @@ export function HowWeWorkSection() {
                 <div className="text-center">
                     <ScrollReveal variant="fade-up" delay={400}>
                         <Link
-                            href="/how-we-work"
-                            className="inline-flex items-center gap-2 text-white hover:text-white/80 font-bold text-lg transition-colors group"
+                            href={cta_link || "#"}
+                            className="inline-flex items-center gap-2 text-white hover:text-white/80 font-bold text-base transition-colors group"
                         >
-                            Learn more about how we work
+                            {cta_text}
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </ScrollReveal>

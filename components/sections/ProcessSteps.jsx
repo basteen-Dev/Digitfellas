@@ -18,7 +18,7 @@ export function ProcessStepsSection() {
                     <h3 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-6">
                         Discover What We Do <br /> And How We Do It
                     </h3>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-base text-gray-400 max-w-2xl mx-auto">
                         Our streamlined process ensures transparency and quality at every step of the development lifecycle.
                     </p>
                 </ScrollReveal>

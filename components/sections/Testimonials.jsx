@@ -24,7 +24,7 @@ export function TestimonialsSection() {
                 >
                     <span className="text-primary font-semibold tracking-wider uppercase text-sm mb-4 block">Testimonials</span>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-white">What Clients Say</h2>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-base text-gray-400 max-w-2xl mx-auto">
                         Trusted by businesses worldwide
                     </p>
                 </ScrollReveal>

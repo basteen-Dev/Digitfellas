@@ -5,8 +5,13 @@ import Image from 'next/image'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { useClientLogos } from '@/lib/homepage-hooks'
 
-export function PartnershipsSection() {
+export function PartnershipsSection({ data }) {
     const { data: clientLogos = [] } = useClientLogos()
+
+    const {
+        title = "Platforms & Partnerships",
+        description = "We work with leading technologies to deliver scalable solutions."
+    } = data || {}
 
     // Static Partners Data
     const partners = [
@@ -34,10 +39,10 @@ export function PartnershipsSection() {
                     <div className="max-w-xl text-center">
                         <ScrollReveal variant="fade-right">
                             <h3 className="text-2xl font-bold text-foreground leading-tight font-heading mb-6">
-                                Platforms & Partnerships
+                                {title}
                             </h3>
-                            <p className="text-muted-foreground text-lg font-body leading-relaxed mb-6">
-                                We work within established technology ecosystems and follow platform best practices to ensure reliability, compliance, and long-term viability.
+                            <p className="text-muted-foreground text-base font-body leading-relaxed mb-6">
+                                {description}
                             </p>
                             <p className="text-muted-foreground text-sm font-bold">
                                 Modern Web, Cloud, and Automation Technologies

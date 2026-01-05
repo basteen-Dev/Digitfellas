@@ -43,7 +43,7 @@ export function BannerPromo() {
                             Hello! We are a creative digital agency dealing with clean code.
                         </h1>
 
-                        <p className="text-gray-200 text-[18px] leading-[30px] mb-10 max-w-[80%]">
+                        <p className="text-gray-200 text-base leading-[30px] mb-10 max-w-[80%]">
                             We help you digitally transform your business. We are a team of passionate developers and designers who love to create amazing digital experiences.
                         </p>
 

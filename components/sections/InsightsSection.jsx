@@ -19,7 +19,7 @@ export function InsightsSection({ posts = [] }) {
                         <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-tight font-heading mb-6">
                             Insights & Perspectives
                         </h3>
-                        <p className="text-muted-foreground text-lg font-body leading-relaxed max-w-2xl">
+                        <p className="text-muted-foreground text-base font-body leading-relaxed max-w-2xl">
                             Observations from building, auditing, and scaling digital systems.
                         </p>
                     </ScrollReveal>
@@ -27,7 +27,7 @@ export function InsightsSection({ posts = [] }) {
                     <ScrollReveal variant="fade-left" delay={200} className="hidden md:block">
                         <Link
                             href="/blog"
-                            className="inline-flex items-center gap-2 text-foreground font-bold hover:text-muted-foreground transition-colors group border-b border-foreground pb-1"
+                            className="inline-flex items-center gap-2 text-[#1a73e8] hover:text-[#1967d2] dark:text-foreground dark:hover:text-primary font-bold transition-colors group border-b border-[#1a73e8] dark:border-foreground pb-1"
                         >
                             Explore insights
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -70,7 +70,7 @@ export function InsightsSection({ posts = [] }) {
                 <div className="mt-16 md:hidden">
                     <Link
                         href="/blog"
-                        className="inline-flex items-center gap-2 text-foreground font-bold hover:text-muted-foreground transition-colors group border-b border-foreground pb-1"
+                        className="inline-flex items-center gap-2 text-[#1a73e8] hover:text-[#1967d2] dark:text-foreground dark:hover:text-primary font-bold transition-colors group border-b border-[#1a73e8] dark:border-foreground pb-1"
                     >
                         Explore insights
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

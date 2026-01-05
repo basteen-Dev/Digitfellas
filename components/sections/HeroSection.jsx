@@ -139,7 +139,7 @@ export function HeroSection({ hero }) {
                         </h1>
 
                         {/* Description Paragraph */}
-                        <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-[40px] lg:mr-[10%] max-w-2xl">
+                        <p className="text-muted-foreground text-base leading-relaxed mb-[40px] lg:mr-[10%] max-w-2xl">
                             {subtitle || 'We build digital products that help businesses grow. From simple websites to complex web applications, we deliver quality code provided by the best experts in the field.'}
                         </p>
 
@@ -163,7 +163,7 @@ export function HeroSection({ hero }) {
                         initial={{ opacity: 0, x: 100 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1.3, ease: "easeOut" }}
-                        className="w-full lg:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:h-[600px] flex items-center justify-center lg:pl-10 mt-8 lg:mt-0"
+                        className="hidden lg:flex w-full lg:w-1/2 relative min-h-[400px] md:min-h-[500px] lg:h-[600px] items-center justify-center lg:pl-10 mt-8 lg:mt-0"
                     >
                         {/* Right Column Background - Removed per user request */}
 

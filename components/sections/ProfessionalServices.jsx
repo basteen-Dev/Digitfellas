@@ -15,7 +15,7 @@ export function ProfessionalServices({ services = [] }) {
                         <h3 className="text-2xl md:text-2xl font-bold text-foreground leading-tight mb-6">
                             What We Build and Support
                         </h3>
-                        <p className="text text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+                        <p className="text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                             We focus on engineering outcomes, not surface-level deliverables. Our capabilities span product engineering, enterprise platforms, AI-driven automation, and security assurance.
                         </p>
                     </ScrollReveal>
