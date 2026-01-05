@@ -23,12 +23,7 @@ export function AboutSection({ data }) {
         <section id="about" className="py-20 md:py-32 bg-[#01010e] transition-colors duration-300 relative overflow-hidden">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
-                <div
-                    className="absolute inset-0 z-10"
-                    style={{
-                        background: 'rgba(0, 0, 0, 0.4)'
-                    }}
-                />
+                
 
                 {/* Top Fade */}
                 <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#01010e] to-transparent z-20" />
@@ -36,14 +31,7 @@ export function AboutSection({ data }) {
                 {/* Bottom Fade */}
                 <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#01010e] to-transparent z-20" />
 
-                <Image
-                    src="/images/Hero_Background.webp"
-                    alt="About Background"
-                    fill
-                    className="object-cover opacity-60 grayscale"
-                    sizes="100vw"
-                    priority
-                />
+              
             </div>
 
             <div className="container relative z-10 px-6 mx-auto">
