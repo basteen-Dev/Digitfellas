@@ -67,6 +67,7 @@ export function SiteHeader() {
         const handleScroll = () => {
             setIsSticky(window.scrollY > 50)
         }
+        handleScroll() // Check initial scroll position
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
@@ -125,9 +126,6 @@ export function SiteHeader() {
 
     return (
         <motion.header
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
             className={cx(
                 "fixed top-0 left-0 right-0 z-[20051] transition-all duration-300",
                 isSticky

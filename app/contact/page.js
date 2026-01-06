@@ -7,17 +7,26 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { Mail, Phone, MapPin, ArrowRight, Loader2 } from 'lucide-react'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { useRef } from 'react'
 
 export default function Page() {
   const [site, setSite] = useState(null)
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', company: '', phone: '', message: '' })
+  const [captchaToken, setCaptchaToken] = useState(null)
+  const recaptchaRef = useRef(null)
 
   const handleSubmit = async () => {
     if (!formData.name || !formData.email || !formData.message) {
-      setError("Please fill out all fields.")
+      setError("Please fill out all required fields.")
+      return
+    }
+
+    if (!captchaToken) {
+      setError("Please complete the reCAPTCHA.")
       return
     }
 
@@ -29,7 +38,7 @@ export default function Page() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       })
 
       const data = await res.json()
@@ -37,9 +46,13 @@ export default function Page() {
       if (!res.ok) throw new Error(data.error || 'Failed to send message')
 
       setSent(true)
-      setFormData({ name: '', email: '', message: '' })
+      setFormData({ name: '', email: '', company: '', phone: '', message: '' })
+      setCaptchaToken(null)
+      recaptchaRef.current?.reset()
     } catch (err) {
       setError(err.message)
+      recaptchaRef.current?.reset()
+      setCaptchaToken(null)
     } finally {
       setLoading(false)
     }
@@ -61,11 +74,13 @@ export default function Page() {
     run()
   }, [])
 
+  const inputClasses = "bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 focus:border-white/20 h-12 rounded-xl px-4 text-base transition-all"
+
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-24 pb-20">
+    <div className="min-h-screen bg-[#01010e] text-white pt-24 pb-20">
       <div className="container max-w-7xl mx-auto px-6">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
 
           {/* Left Column: Context & Info */}
           <div className="flex flex-col justify-center">
@@ -106,66 +121,100 @@ export default function Page() {
           </div>
 
           {/* Right Column: Form */}
-          <div className="bg-[#0a0a0a] p-8 md:p-12 rounded-3xl border border-white/5 shadow-2xl">
+          <div className="bg-[#0c053e] p-6 md:p-10 rounded-[2rem] border border-white/10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32" />
+
             <ScrollReveal variant="fade-left" delay={200}>
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Name</label>
-                  <Input
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 h-14 rounded-xl px-4 text-lg"
-                  />
+              <div className="space-y-5 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-widest">Full Name *</label>
+                    <Input
+                      placeholder="John Doe"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className={inputClasses}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-widest">Company / Organization</label>
+                    <Input
+                      placeholder="Company Name"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      className={inputClasses}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-widest">Phone Number</label>
+                    <Input
+                      placeholder="+91 00000 00000"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className={inputClasses}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-widest">Email Address *</label>
+                    <Input
+                      placeholder="john@company.com"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className={inputClasses}
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Email</label>
-                  <Input
-                    placeholder="john@company.com"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 h-14 rounded-xl px-4 text-lg"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-gray-400 mb-2 uppercase tracking-wide">Message</label>
+                  <label className="block text-xs font-bold text-white/40 mb-2 uppercase tracking-widest">Project Details *</label>
                   <Textarea
-                    placeholder="Tell us about your project..."
-                    rows={6}
+                    placeholder="Tell us about your project or inquiry..."
+                    rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="bg-[#141414] border-white/10 text-white placeholder:text-gray-600 focus:border-white/30 rounded-xl px-4 py-4 text-lg resize-none"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 focus:bg-white/10 focus:border-white/20 rounded-xl px-4 py-3 text-base resize-none min-h-[100px] transition-all"
+                  />
+                </div>
+
+                {/* reCAPTCHA Section */}
+                <div className="flex justify-center md:justify-start transform scale-90 origin-left">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"} // Fallback to test key if not set
+                    onChange={(token) => setCaptchaToken(token)}
+                    theme="dark"
                   />
                 </div>
 
                 <div className="pt-4">
                   <Button
-                    className="w-full bg-white hover:bg-gray-200 text-black font-bold h-14 rounded-xl text-lg transition-all"
+                    className="w-full bg-white hover:bg-gray-200 text-[#0c053e] font-black h-12 rounded-xl text-base transition-all uppercase tracking-widest shadow-xl"
                     onClick={handleSubmit}
                     disabled={loading}
                   >
                     {loading ? (
                       <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Sending...
+                        <Loader2 className="mr-2 h-6 w-6 animate-spin" /> Processing...
                       </>
                     ) : (
                       <>
-                        Send Message <ArrowRight className="ml-2 h-5 w-5" />
+                        Send Message <ArrowRight className="ml-2 h-6 w-6" />
                       </>
                     )}
                   </Button>
                 </div>
 
                 {sent && (
-                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center font-medium animate-in fade-in slide-in-from-bottom-2">
+                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-center font-bold animate-in fade-in slide-in-from-bottom-2">
                     Message sent successfully! We'll be in touch.
                   </div>
                 )}
                 {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center font-medium animate-in fade-in slide-in-from-bottom-2">
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-center font-bold animate-in fade-in slide-in-from-bottom-2">
                     {error}
                   </div>
                 )}

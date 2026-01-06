@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Facebook, Twitter, Linkedin, Instagram, MessageCircle } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useSite } from '@/lib/api-hooks'
 
 const navigation = {
@@ -29,7 +30,10 @@ const getSocialIcon = (label) => {
 }
 
 export function SiteFooter() {
+    const pathname = usePathname()
     const { site } = useSite()
+
+    if (pathname?.startsWith('/admin')) return null
     let socials = site?.footer?.socials || []
 
     // Ensure common socials are present even if not in DB
